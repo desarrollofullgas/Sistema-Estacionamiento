@@ -1,0 +1,100 @@
+/*
+	===============================
+			@Import	Function
+	===============================
+*/
+/*
+	===============================
+			@Import	Mixins
+	===============================
+*/
+html {
+  min-height: 100%; }
+
+body {
+  color: #888ea8;
+  height: 100%;
+  font-size: 0.875rem;
+  background: #f1f2f3;
+  overflow-x: hidden;
+  overflow-y: auto;
+  letter-spacing: 0.0312rem;
+  font-family: 'Quicksand', sans-serif;
+  max-width: 1600px;
+  margin: 0 auto; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3b3f5c; }
+
+:focus {
+  outline: none; }
+
+::-moz-selection {
+  /* Code for Firefox */
+  color: #f30b0b;
+  background: transparent; }
+
+::selection {
+  color: #f40a0a;
+  background: transparent; }
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.625rem;
+  color: #515365; }
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 1px solid #f1f2f3; }
+
+strong {
+  font-weight: 600; }
+
+code {
+  color: #e7515a; }
+
+/*Page title*/
+.navbar .navbar-item .nav-item.page-heading {
+  margin-left: 20px; }
+
+.navbar.expand-header .navbar-item .nav-item.page-heading {
+  margin-left: 25px; }
+
+.main-container {
+  min-height: auto;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start; }
+
+#container.fixed-header {
+  margin-top: 56px; }
+
+#content {
+  margin-top: 0;
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  min-height: auto;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px; }
+
+.main-container-fluid > .main-content > .container {
+  float: left;
+  width: 100%; }
+
+#content > .wrapper {
+  -webkit-transition: margin ease-in-out .1s;
+  -moz-transition: margin ease-in-out .1s;
+  -o-transition: margin ease-in-out .1s;
+  transition: margin ease-in-out .1s;
+  position: relative; }
+
+

@@ -1,0 +1,144 @@
+<div class="content">
+    @section('title', 'Prox Rentas')
+    <x-slot name="header">
+        {{-- topmenu --}}
+    </x-slot>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Rentas proximas.</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-lg-4 text-left">
+                            <b>Fecha de Consulta</b>: {{ \Carbon\Carbon::now()->format('d-m-Y') }}
+                            <br>
+                            <b>Cantidad Registros</b>: {{ $info->count() }}
+                        </div>
+                        @can('reporte_rentasavencer_exportar')
+                        <div class="col-sm-12 col-md-4  text-right">
+                            <button class="btn btn-dark btn-sm" id="pdfoutrent">Exportar a PDF</button>
+                        </div>
+                        @endcan
+                    </div>
+                    <hr>
+                    <div class="table-responsive scrollbar2 ps">
+                        <table id="rentasprox" class="table mb-0 " style="width: 100%">
+                            <thead class="bg-light" style="position: sticky ">
+                                <tr class="bold">
+                                    <th class="border-bottom-0 text-center">Código</th>
+                                    <th class="border-bottom-0 text-center">Cliente</th>
+                                    {{-- <th class="border-bottom-0 text-center">Contacto</th> --}}
+                                    <th class="border-bottom-0 text-center">Acceso</th>
+                                    <th class="border-bottom-0 text-center">T. Restante</th>
+                                    <th class="border-bottom-0 text-center">Salida</th>
+                                    <th class="border-bottom-0 text-center">Vehiculo</th>
+                                    <th class="border-bottom-0 text-center">Status</th>
+                                    <th class="border-bottom-0 text-center">Salida</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table_mov">
+                                @foreach ($info as $r)
+                                    <tr class="item-mov text-center">
+                                        <td class="text-center">{{ $r->barcode }}</td>
+                                        <td class="text-center">{{ $r->cliente }}</td>
+                                        {{-- <td class="text-center">{{ $r->celular }}</td> --}}
+                                        <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($r->acceso)->format('d-m-Y h:i:s') }}</td>
+                                        <td class="text-left">
+                                            <h7>Años:{{ $r->restanteyears }}</h7><br>
+                                            <h7>Meses:{{ $r->restantemeses }}</h7><br>
+                                            <h7>Días:{{ $r->restantedias }}</h7><br>
+                                            <h7>Horas:{{ $r->restantehoras }}</h7><br>
+
+                                        </td>
+                                        <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($r->salida)->format('d-m-Y h:i:s') }}</td>
+                                        <td class="text-left">
+                                            <h7>Placa:{{ $r->placa }}</h7><br>
+                                            <h7>Modelo:{{ $r->modelo }}</h7><br>
+                                            <h7>Marca:{{ $r->marca }}</h7>
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($r->estado == 'VENCIDO')
+                                                <h7 class="text-danger"><b>{{ $r->estado }}</b></h7>
+                                            @else
+                                                @if ($r->restantedias > 0)
+                                                    @if ($r->restantedias > 0 && $r->restantedias <= 3)
+                                                        <h7 class="text-warning"><b>{{ $r->estado }}</b></h7>
+                                                    @else
+                                                        <h7 class="text-success"><b>{{ $r->estado }}</b></h7>
+                                                    @endif
+                                                @else
+                                                    <h7 class="text-danger"><b>{{ $r->estado }}</b></h7>
+                                                @endif
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @can('reporte_rentasavencer_salidas')
+                                                <a href="javascript:void(0);"
+                                                    wire:click.prevent="$emit('checkOutTicketPension', {{ $r->id }})"
+                                                    title="Cerrar Ticket"
+                                                    class="rounded-circle btn btn-outline-dark btn-sm"><i
+                                                        class="bi bi-check2-circle"></i></a>
+                                            @endcan
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="7"></th>
+                                    <th class="text-left" colspan="2">
+                                        <h6 class="text-danger">Rentas Vencidas:{{ $totalVencidos }}</h6>
+                                        <h6>Próximas a Vencer: {{ $totalProximas }}</h6>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //ventas diarias
+var maintable = document.getElementById('rentasprox'),
+                    pdfout = document.getElementById('pdfoutrent');
+                    pdfout.onclick = function(){
+            var doc = new jsPDF('p', 'pt', 'letter'); 
+            var margin = 20; 
+            var scale = (doc.internal.pageSize.width - margin * 2) / document.body.clientWidth; 
+            var scale_mobile = (doc.internal.pageSize.width - margin * 2) / document.body.getBoundingClientRect(); 
+
+            
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                
+                doc.html(maintable, { 
+                    x: margin,
+                    y: margin,
+                    html2canvas:{
+                        scale: scale_mobile,
+                    },
+                    callback: function(doc){
+                        doc.output('dataurlnewwindow', {filename: 'pdf.pdf'}); 
+                    }
+                });
+            } else{
+                 
+                doc.html(maintable, {
+                    x: margin,
+                    y: margin,
+                    html2canvas:{
+                        scale: scale,
+                    },
+                    callback: function(doc){
+                        doc.output('dataurlnewwindow', {filename: 'pdf.pdf'}); 
+                    }
+                });
+            }
+        };
+
+</script>

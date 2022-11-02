@@ -1,0 +1,112 @@
+/* Logo Estacionamiento */
+ .logologin{
+    width: 250px ;
+} 
+/* Body */
+body{
+    background: rgb(27, 27, 27) !important;
+} 
+/* img {
+    width: 100%;
+}
+.login{
+    height:695px;
+    width: 100%;
+    background: radial-gradient(#0c0c0c, #0a0000);
+    position: absolute;
+}
+.login_box{
+    width: 1000px;
+    height: 550px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 4px 22px -8px rgb(250, 248, 248);
+    display: flex;
+    overflow: hidden;
+}
+.login_box .left{
+    width: 41%;
+    height: 100%;
+    padding:  25px 25px;
+    display: block;
+}
+.login_box .right{
+    width: 59%;
+    height: 100%;
+}
+
+.left .contact{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    height: 100%;
+    width: 73%;
+    margin: auto;
+}
+.left h3{
+    text-align: center;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    text-shadow : 5px 5px 2px  #999999;
+    font-family: fantasy;
+    font-size: xx-large;
+    font-weight: bolder;
+    letter-spacing: 12px;
+}
+.left input.input{
+    border: none;
+    width: 80%;
+    margin: 15px 0;
+    border-bottom: 1px solid #b60404fd;
+    padding: 7px 9px;
+    overflow: hidden;
+    background: transparent;
+    font-weight: 600;
+    font-size: 14px;
+}
+.left{
+    background: linear-gradient(-45deg, #dcd7e0, #fff);
+}
+.but{
+    border: none;
+    padding: 15px 70px;
+    border-radius: 8px;
+    display: block;
+    margin:auto;
+    margin-top: 120px;
+    background: #ec0606;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 9px 15px -1px rgb(233, 19, 66);
+}
+.right{
+    background: linear-gradient(212.38deg, rgba(243, 7, 7, 0.7) 0%, rgba(109, 94, 94, 0.71) 100%), url(../img/logotype/logoestacionamientoFG2.png);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    position: relative;
+}
+.right .right-text{
+    height: 100%;
+    position: relative;
+    transform: translate(0, 45%);
+}
+.right-text h2{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight:bolder;
+}
+.right-text h5{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 19px;
+    font-weight: 400;
+} */
