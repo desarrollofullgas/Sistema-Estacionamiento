@@ -28,10 +28,10 @@
 
 
     {{-- Sweet Alert --}}
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{asset('assets/js/sweetalert2@11.js')}}"></script>
 
     {{-- Iconos Bootstrap --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap-icons-1.9.1/bootstrap-icons.css')}}">
 
     @livewireStyles
 
@@ -40,8 +40,7 @@
     <script src="{{ asset('js/main.js') }}" defer></script>
 
     {{-- DATATABLES --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{asset('assets/datatables/datatables.min.css')}}">
 
 </head>
 
@@ -193,12 +192,11 @@
     @livewireScripts
 
     @stack('scripts')
-    <script src="https://kit.fontawesome.com/0102df25ac.js" crossorigin="anonymous"></script>
+    <script src="{{asset('assets/js/kitfontawesome.js')}}" crossorigin="anonymous"></script>
 
     {{-- DATATABLES --}}
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{asset('assets/js/jquery-3.6.1.min.js')}}"></script>
+    <script src="{{asset('assets/datatables/datatables.min.js')}}"></script>
     <script>
         $(document).ready(function() {
             $('#tabs').DataTable({
@@ -207,33 +205,7 @@
                     [5, 10, 25, 50, "Todo"]
                 ],
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#tblRoles').DataTable({
-                "lengthMenu": [
-                    [5, 10, 25, 50, -1],
-                    [5, 10, 25, 50, "Todo"]
-                ],
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#tblPermisos').DataTable({
-                "lengthMenu": [
-                    [5, 10, 25, 50, -1],
-                    [5, 10, 25, 50, "Todo"]
-                ],
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                    "url": "{{asset('assets/Spanish.json')}}"
                 }
             });
         });
@@ -271,8 +243,8 @@
     <script src="{{ asset('js/toast.js') }}"></script>
 
     <!--    Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.js" integrity="sha512-sk0cNQsixYVuaLJRG0a/KRJo9KBkwTDqr+/V94YrifZ6qi8+OO3iJEoHi0LvcTVv1HaBbbIvpx+MCjOuLVnwKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{asset('assets/js/jspdf.debug.js')}}" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+<script src="{{asset('assets/js/html2canvas.js')}}" integrity="sha512-sk0cNQsixYVuaLJRG0a/KRJo9KBkwTDqr+/V94YrifZ6qi8+OO3iJEoHi0LvcTVv1HaBbbIvpx+MCjOuLVnwKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @if ($empresa <= 0)
         <script type="text/javascript">
