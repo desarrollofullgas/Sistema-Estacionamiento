@@ -8,23 +8,27 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Rentas proximas.</div>
+                    @can('reporte_rentasavencer_exportar')
+                        <div class="col-sm-12 col-md-10  text-right">
+                            <button class="btn btn-dark btn-sm" id="pdfoutrent">Exportar a PDF</button>
+                        </div>
+                        @endcan
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="rentasprox">
                     <div class="row">
                         <div class="col-sm-12 col-md-4 col-lg-4 text-left">
                             <b>Fecha de Consulta</b>: {{ \Carbon\Carbon::now()->format('d-m-Y') }}
                             <br>
                             <b>Cantidad Registros</b>: {{ $info->count() }}
                         </div>
-                        @can('reporte_rentasavencer_exportar')
-                        <div class="col-sm-12 col-md-4  text-right">
-                            <button class="btn btn-dark btn-sm" id="pdfoutrent">Exportar a PDF</button>
+                        <div class="col-sm-12 col-md-8 float-right">
+                            <p align="right"><img src="{{asset('img/logotype/LogoEstacionamientoFG2.png')}}" style="width: 150px" alt=""></p>
                         </div>
-                        @endcan
                     </div>
                     <hr>
                     <div class="table-responsive scrollbar2 ps">
-                        <table id="rentasprox" class="table mb-0 " style="width: 100%">
+                        <table  class="table mb-0 " style="width: 100%">
+                            <caption>Reporte Próximas Rentas. </br> <small>FullGas Energy Operator &copy;</small> </caption>
                             <thead class="bg-light" style="position: sticky ">
                                 <tr class="bold">
                                     <th class="border-bottom-0 text-center">Código</th>
@@ -105,7 +109,7 @@
 </div>
 <script>
     //ventas diarias
-var maintable = document.getElementById('rentasprox'),
+var rentasprox = document.getElementById('rentasprox'),
                     pdfout = document.getElementById('pdfoutrent');
                     pdfout.onclick = function(){
             var doc = new jsPDF('p', 'pt', 'letter'); 
@@ -116,7 +120,7 @@ var maintable = document.getElementById('rentasprox'),
             
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
                 
-                doc.html(maintable, { 
+                doc.html(rentasprox, { 
                     x: margin,
                     y: margin,
                     html2canvas:{
@@ -128,7 +132,7 @@ var maintable = document.getElementById('rentasprox'),
                 });
             } else{
                  
-                doc.html(maintable, {
+                doc.html(rentasprox, {
                     x: margin,
                     y: margin,
                     html2canvas:{

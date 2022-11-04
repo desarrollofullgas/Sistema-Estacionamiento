@@ -8,8 +8,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Reporte de ventas por fecha.</div>
+                    @can('reporte_ventasporfecha_exportar')
+                        <div class="col-sm-12 col-md-9  text-right ">
+                            <button class="btn btn-dark btn-sm" id="pdfoutfech">Exportar a PDF</button>
+                        </div>
+                        @endcan
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="vfechas">
                     <div class="row">
                         <div class="col-sm-12 col-md-2">Fecha Inicial
                             <div class="form-group">
@@ -23,25 +28,24 @@
                                     type="text" placeholder="Haz click">
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-1 col-lg-1 text-left">
+                        <div class="col-sm-12 col-md-2 text-left">
                             <button type="submit" class="btn btn-info mt-4 mobile-only">Ver</button>
                         </div>
-                        @can('reporte_ventasporfecha_exportar')
-                        <div class="col-sm-12 col-md-1 col-lg-1 text-left">
-                            <button class="btn btn-dark btn-sm mt-3 mobile-only" id="pdfoutfech">Exportar a PDF</button>
-                        </div>
-                        @endcan
-                        <div class="col-sm-12 col-md-3 col-lg-3 offset-lg-3">
+                        <div class="col-sm-12 col-md-3 ">
                             <b>Fecha de Consulta</b>: {{\Carbon\Carbon::now()->format('d-m-Y')}}
                             <br>
                             <b>Cantidad Registros</b>: {{ $info->count() }}
                             <br>
                             <b>Total Ingresos</b>: ${{ number_format($sumaTotal,2) }}
                         </div>
+                        <div class="col-sm-12 col-md-3 ">
+                            <p align="right"><img src="{{asset('img/logotype/LogoEstacionamientoFG2.png')}}" style="width: 150px" alt=""></p>
+                        </div>
                         <hr>
                     </div>
                     <div class="table-responsive scrollbar2 ps">
-                        <table id="vfechas" class="table mb-0 " style="width: 100%">
+                        <table  class="table mb-0 " style="width: 100%">
+                            <caption>Reporte Ventas por Fecha. </br> <small>FullGas Energy Operator &copy;</small> </caption>
                             <thead class="bg-light" style="position: sticky ">
                                 <tr class="bold">
                                     <th class="border-bottom-0 text-center">Código</th>
@@ -98,7 +102,7 @@
 </div>
 <script>
     //ventas diarias
-var maintable = document.getElementById('vfechas'),
+var vfechas = document.getElementById('vfechas'),
                     pdfout = document.getElementById('pdfoutfech');
                     pdfout.onclick = function(){
             var doc = new jsPDF('p', 'pt', 'letter'); 
@@ -109,7 +113,7 @@ var maintable = document.getElementById('vfechas'),
             
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
                 
-                doc.html(maintable, { 
+                doc.html(vfechas, { 
                     x: margin,
                     y: margin,
                     html2canvas:{
@@ -121,7 +125,7 @@ var maintable = document.getElementById('vfechas'),
                 });
             } else{
                  
-                doc.html(maintable, {
+                doc.html(vfechas, {
                     x: margin,
                     y: margin,
                     html2canvas:{

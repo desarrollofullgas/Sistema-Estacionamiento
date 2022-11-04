@@ -8,8 +8,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">Reporte de ventas diarias.</div>
+                    @can('reporte_ventasdiarias_exportar')
+                        <div class="col-sm-12 col-md-9  text-right">
+                            <button class="btn btn-dark btn-sm" id="pdfout">Exportar a PDF</button>
+                        </div>
+                    @endcan
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="vdiarias">
                     <div class="row">
                         <div class="col-sm-12 col-md-4 text-left">
                             <b>Fecha de Consulta</b>: {{ \Carbon\Carbon::now()->format('d-m-Y') }}
@@ -18,16 +23,15 @@
                             <br>
                             <b>Total Ingresos</b>: ${{ number_format($sumaTotal, 2) }}
                         </div>
-                        @can('reporte_ventasdiarias_exportar')
-                            <div class="col-sm-12 col-md-4  text-right">
-                                <button class="btn btn-dark btn-sm" id="pdfout">Exportar a PDF</button>
-                            </div>
-                        @endcan
+                        <div class="col-sm-12 col-md-8 float-right">
+                            <p align="right"><img src="{{asset('img/logotype/LogoEstacionamientoFG2.png')}}" style="width: 150px" alt=""></p>
+                        </div>
                     </div>
                     <hr>
                     <div class="table-responsive scrollbar2 ps">
-                        <table id="vdiarias" class="table  table-striped mb-0 " style="width: 100%">
-                            <caption>Reporte Ventas Diarias</caption>
+                        <table class="table  table-striped mb-0 " style="width: 100%">
+                            <caption>Reporte Ventas Diarias. </br> <small>FullGas Energy Operator &copy;</small>
+                            </caption>
                             <thead class="bg-light" style="position: sticky ">
                                 <tr class="bold">
                                     <th class="border-bottom-0 text-center">Código</th>
@@ -110,7 +114,7 @@
     </div>
     <script>
         //ventas diarias
-        var maintable = document.getElementById('vdiarias'),
+        var vdiarias = document.getElementById('vdiarias'),
             pdfout = document.getElementById('pdfout');
         pdfout.onclick = function() {
             var doc = new jsPDF('p', 'pt', 'letter');
@@ -121,7 +125,7 @@
 
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
-                doc.html(maintable, {
+                doc.html(vdiarias, {
                     x: margin,
                     y: margin,
                     html2canvas: {
@@ -135,7 +139,7 @@
                 });
             } else {
 
-                doc.html(maintable, {
+                doc.html(vdiarias, {
                     x: margin,
                     y: margin,
                     html2canvas: {
