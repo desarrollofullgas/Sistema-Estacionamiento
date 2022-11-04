@@ -217,7 +217,7 @@
                         <div class="col-md-4 col-lg-4 col-sm-12">
                             @if ($tiempo > 0)
                                 <button wire:click.prevent="RegistrarTicketRenta()"
-                                    class="btn btn-success mt-4">Registrar Entrada</button>
+                                    class="btn btn-dark mt-4">Registrar Entrada</button>
                             @endif
                         </div>
                         <div class="col-md-4 col-lg-4 col-sm-12 text-right">

@@ -44,7 +44,7 @@
                         <hr>
                     </div>
                     <div class="table-responsive scrollbar2 ps">
-                        <table  class="table mb-0 " style="width: 100%">
+                        <table id="tabs" class="table mb-0 " style="width: 100%">
                             <caption>Reporte Ventas por Fecha. </br> <small>FullGas Energy Operator &copy;</small> </caption>
                             <thead class="bg-light" style="position: sticky ">
                                 <tr class="bold">
