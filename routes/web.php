@@ -21,9 +21,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'data'])->middleware('auth','verified')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'data'])->middleware('auth')->name('dashboard');
 	
-    Route::get('/users', [UserController::class, 'index'])->middleware('permission:usuarios_index','verified')->name('users');
+    Route::get('/users', [UserController::class, 'index'])->middleware('permission:usuarios_index')->name('users');
     Route::delete('/users{user}', [UserController::class, 'destroy'])->name('users.destroy');
 	Route::get("/trashed", [UserController::class, "trashed_users"])->name('users.trashed');
 	Route::post("/restore", [UserController::class, "do_restore"])->name('user_restore');

@@ -10,7 +10,7 @@ use App\Models\Renta;
 
 class TarifasController extends Component
 {
-    use WithPagination;
+    // use WithPagination;
 
 	//properties
 	public  $tiempo ='Elegir',$descripcion,$costo,$tipo ='Elegir',$jerarquia; //campos de la tabla/modelo

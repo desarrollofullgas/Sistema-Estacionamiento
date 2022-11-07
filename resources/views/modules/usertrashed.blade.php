@@ -40,29 +40,32 @@
                                             <td>{{ $user->deleted_at }}</td>
 
                                             <td class="d-flex ">
-                                                {{-- restaurar --}}
-                                                <form method="POST" action="{{ route('user_restore') }}"
-                                                    onsubmit="return confirm('Are you sure you want to restore this user ?');">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" name="id" value="{{ $user->id }}"
-                                                        required />
-                                                    <button type="submit"
-                                                        class="btn btn-success btn-sm rounded-circle">
-                                                        <i class="bi bi-recycle"></i>
-                                                    </button>
-                                                </form>
-                                                {{-- Eliminar Permanente --}}
-                                                <form method="POST" action="{{ route('deleteuser_permanently') }}"
-                                                    onsubmit="return confirm('Are you sure you want to permanently delete this user ?');">
+                                                @can('usuarios_restore')
+                                                    {{-- restaurar --}}
+                                                    <form method="POST" action="{{ route('user_restore') }}"
+                                                        onsubmit="return confirm('Are you sure you want to restore this user ?');">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" name="id" value="{{ $user->id }}"
+                                                            required />
+                                                        <button type="submit"
+                                                            class="btn btn-success btn-sm rounded-circle">
+                                                            <i class="bi bi-recycle"></i>
+                                                        </button>
+                                                    </form>
+                                                    {{-- Eliminar Permanente --}}
+                                                    <form method="POST" action="{{ route('deleteuser_permanently') }}"
+                                                        onsubmit="return confirm('Are you sure you want to permanently delete this user ?');">
 
-                                                    {{ csrf_field() }}
+                                                        {{ csrf_field() }}
 
-                                                    <input type="hidden" name="id" value="{{ $user->id }}"
-                                                        required />
-                                                    <button type="submit" class="btn btn-danger btn-sm rounded-circle ml-2">
-                                                        <i class="bi bi-trash3"></i>
-                                                    </button>
-                                                </form>
+                                                        <input type="hidden" name="id" value="{{ $user->id }}"
+                                                            required />
+                                                        <button type="submit"
+                                                            class="btn btn-danger btn-sm rounded-circle ml-2">
+                                                            <i class="bi bi-trash3"></i>
+                                                        </button>
+                                                    </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                     @endforeach
@@ -71,7 +74,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-dark btn-sm" href="{{route('users')}}">Volver</a>
+                        <a class="btn btn-dark btn-sm" href="{{ route('users') }}">Volver</a>
                     </div>
                 </div>
             </div>

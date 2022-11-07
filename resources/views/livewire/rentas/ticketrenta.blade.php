@@ -28,7 +28,7 @@
                                             <b>{{ $r->name }}</b> - <h7 class="text-info">Placa</h7>
                                             :{{ $r->placa }} - <h7 class="text-success">Marca</h7>
                                             :{{ $r->marca }} - <h7 class="text-secondary">Color</h7>
-                                            :{{ $r->color }}
+                                            :{{ $r->color }} 
                                         </li>
                                     @endforeach
                                 @endif
@@ -106,9 +106,12 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-dark" wire:click="$set('section',1)">
+                    {{-- <button class="btn btn-dark" wire:click="$set('section',1)">
                         <i class="la la-chevron-left"></i> Regresar
-                    </button>
+                    </button> --}}
+                    <a class="btn btn-dark btn-sm" href="{{url('rentas')}}"">
+                        <i class="bi bi-arrow-return-left"></i> Regresar
+                    </a>
                 </div>
             </div>
         </div>

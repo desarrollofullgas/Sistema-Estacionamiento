@@ -203,7 +203,7 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
        //enviamos feedback al user
        $this->barcode ='';   
        $this->descripcion ='';          
-       $this->emit('getin-ok','Entrada Registrada en Sistema');
+      $this->emit('getin-ok','Entrada Registrada en Sistema');
        $this->emit('print', $renta->id);
 
 
@@ -341,7 +341,7 @@ return;
 
 //feedback al user
  $this->barcode ='';
- $this->emit('getin-ok','Entrada Registrada en Sistema');
+$this->emit('getin-ok','Entrada Registrada en Sistema');
 
 
 
@@ -349,7 +349,7 @@ return;
 
 public function doCheckIn($tarifa_id, $cajon_id, $estatus = '')
 {
-  $this->emit('checkin-ok','Entrada Registrada en Sistema');
+ $this->emit('checkin-ok','Entrada Registrada en Sistema');
 }
 
 
@@ -362,15 +362,16 @@ public function RegistrarTicketRenta()
   $rules = [
     'name'     => 'required|min:3',
     'direccion'    => 'required',            
-    'placa'    => 'required',
-    'email' =>'nullable|email'         
+    'placa'    => 'required|max:7',
+    'email' =>'nullable|email',     
   ];
 
   //mensajes personalizados
   $customMessages = [
     'name.required' => 'El campo Nombre es obligatorio',
     'direccion.required' => 'Por favor ingresa la Dirección',         
-    'placa.required' => 'Debes ingresar el número de Placa'          
+    'placa.required' => 'Debes ingresar el número de Placa',
+    'placa.max' => 'La Placa no debe exceder 7 caracteres',          
   ];
 
   //ejecutamos las validaciones
@@ -380,6 +381,7 @@ public function RegistrarTicketRenta()
   $exist = Renta::where('placa',$this->placa)->where('vehiculo_id', '>', 0)->where('estatus','ABIERTO')->count();
   if($exist > 0) {
     $this->emit('msg-error',"La placa $this->placa tiene una renta registrada aún con vigencia");
+    
     return ;
   }
 
@@ -396,7 +398,7 @@ public function RegistrarTicketRenta()
     }
     else {
       //si email viene vacío, generamos uno
-      if(empty($this->email)) $this->email = str_replace(' ','_', $this->nombre) .'_'. uniqid() . '_@estacionamientofg.com';
+      if(empty($this->email)) $this->email = str_replace(' ','_', $this->nombre) .'_@estacionamientofg.com';
       $cliente = User::create([
         'name' => $this->name,
         'telefono' => $this->telefono,
@@ -404,7 +406,7 @@ public function RegistrarTicketRenta()
         'direccion' => $this->direccion,
         'tipo' => 'Cliente',
         'email' =>  $this->email,
-        'password' => bcrypt('secret2020.')
+        'password' => bcrypt('secret2022.')
       ]);
     }
 
@@ -504,9 +506,9 @@ public function mostrarCliente($cliente)
 
   $this->name = $clienteJson->name;
   // $this->telefono = $clienteJson->telefono;
-  $this->celular = $clienteJson->movil;
+  // $this->celular = $clienteJson->movil;
   $this->email = $clienteJson->email;
-  $this->direccion = $clienteJson->direccion;
+  // $this->direccion = $clienteJson->direccion;
 
   $this->placa = $clienteJson->placa;
   $this->modelo = $clienteJson->modelo;

@@ -118,6 +118,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'usuarios_create']);
         Permission::create(['name' => 'usuarios_edit']);
         Permission::create(['name' => 'usuarios_destroy']);
+        Permission::create(['name' => 'usuarios_restore']);
 
 
         //lista de roles
@@ -181,7 +182,8 @@ class PermissionsTableSeeder extends Seeder
             'usuarios_index',
             'usuarios_create',
             'usuarios_edit',
-            'usuarios_destroy'
+            'usuarios_destroy',
+            'usuarios_restore',
         ]);
 
         $empleado->givePermissionTo([

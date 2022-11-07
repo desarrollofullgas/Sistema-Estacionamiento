@@ -9,13 +9,13 @@ use App\Models\Caja;
 
 class CajaController extends Component
 {
-    use WithPagination;
+    // use WithPagination;
 
 	//properties
 	public  $tipo ='Elegir',$concepto,$monto,$comprobante;//campos de la tabla/modelo
 	public  $selected_id, $search;   						//para búsquedas y fila seleccionada
     public  $action = 1;             						//manejo de ventanas
-    private $pagination = 5;         						//paginación de tabla
+    private $pagination;         						//paginación de tabla
    
 
     //método que se ejecuta al inciar el componente
@@ -34,7 +34,7 @@ class CajaController extends Component
 
 			$caja = Caja::leftjoin('users as u','u.id', 'caja.user_id')
 				->select('caja.*','u.nombre')
-				->orderBy('id','desc')
+				// ->orderBy('id','desc')
 				->paginate($this->pagination);
 
          return view('livewire.cajas.component', [
