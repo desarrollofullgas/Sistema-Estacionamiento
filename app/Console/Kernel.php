@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         
-        $schedule->command('backup:run')->daily(); // hora en la que realiza el nuevo backup
+        $schedule->command('backup:run')->everyMinute(); // hora en la que realiza el nuevo backup
     }
 
     /**
