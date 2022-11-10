@@ -6497,13 +6497,13 @@ span.title {
 }
 .color-box .cl-info span {
     font-size: 14px;
-    color: #888ea8;
+    color: #888ea8 !important;
     font-weight: 600;
 }
 
 .topbar-nav.header {
     padding: 0;
-    z-index: 500;
+    z-index: 1000;
     width: 100%;
     top: 0;
     margin: 0;
@@ -6555,14 +6555,6 @@ span.title {
     color: #fcf9f9;
     vertical-align: text-bottom;
 }
-.topbar-nav.header
-    nav#topbar
-    ul.menu-categories
-    li.menu
-    > .dropdown-toggle
-    i.feather-chevron-down {
-    display: none;
-}
 
 .topbar-nav.header nav#topbar ul.menu-categories li.menu:hover .submenu {
     visibility: visible;
@@ -6584,8 +6576,6 @@ span.title {
     border-radius: 4px;
     box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.15);
     display: inline-block;
-    visibility: hidden;
-    opacity: 0;
     visibility: hidden;
     opacity: 0;
     transform: translateY(-2em);
@@ -6610,7 +6600,6 @@ span.title {
     padding: 4px 24px;
     font-size: 13px;
     font-weight: 600;
-    color: #888ea8;
     letter-spacing: 0px;
     line-height: 24px;
     text-decoration: none;

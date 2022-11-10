@@ -154,16 +154,12 @@
                             </ul>
                         </li>
                         <li class="menu single-menu">
-                            <a href="#more" >
+                            <a href="{{ url('users') }}">
                                 <div class="">
                                     <i class="bi bi-people-fill"></i>
                                     <span>USUARIOS</span>
                                 </div>
                             </a>
-                            <ul class="collapse submenu list-unstyled" id="more" >
-                                <li>
-                                    <a href="{{ url('users') }}"> USUARIOS </a>
-                                </li>
                         </li>
                     </ul>
                 </nav>
