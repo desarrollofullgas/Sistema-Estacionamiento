@@ -8,7 +8,7 @@
     <link href="{{ asset('assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 
-    <link rel="shortcut icon" href="{{ asset('img/favicon/logotk.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('img/favicon/faviconnew.png') }}" type="image/x-icon">
 
     <title> EstacionamientoFG - @yield('title') </title>
 
@@ -28,10 +28,10 @@
 
 
     {{-- Sweet Alert --}}
-    <script src="{{asset('assets/js/sweetalert2@11.js')}}"></script>
+    <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
 
     {{-- Iconos Bootstrap --}}
-    <link rel="stylesheet" href="{{asset('assets/css/bootstrap-icons-1.9.1/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons-1.9.1/bootstrap-icons.css') }}">
 
     @livewireStyles
 
@@ -40,7 +40,7 @@
     <script src="{{ asset('js/main.js') }}" defer></script>
 
     {{-- DATATABLES --}}
-    <link rel="stylesheet" href="{{asset('assets/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/datatables/datatables.min.css') }}">
 
 </head>
 
@@ -73,8 +73,8 @@
                             </a>
                         </li>
                         <li class="menu single-menu">
-                            <a href="#components" >
-                                <div >
+                            <a href="#components">
+                                <div>
                                     <i class="bi bi-speedometer"></i>
                                     <span>RENTAS</span>
                                 </div>
@@ -89,7 +89,7 @@
                             </ul>
                         </li>
                         <li class="menu single-menu">
-                            <a href="#components" >
+                            <a href="#components">
                                 <div class="">
                                     <i class="bi bi-gear-fill"></i>
                                     <span>CONFIG</span>
@@ -119,7 +119,7 @@
                             </a>
                         </li>
                         <li class="menu single-menu">
-                            <a href="#tables" >
+                            <a href="#tables">
                                 <div class="">
                                     <i class="bi bi-inboxes-fill"></i>
                                     <span>CAJA</span>
@@ -161,6 +161,14 @@
                                 </div>
                             </a>
                         </li>
+                        <li class="menu single-menu">
+                            <a href="{{ url('respaldos') }}">
+                                <div class="">
+                                    <i class="bi bi-people-fill"></i>
+                                    <span>RESPALDOS</span>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -188,11 +196,11 @@
     @livewireScripts
 
     @stack('scripts')
-    <script src="{{asset('assets/js/kitfontawesome.js')}}" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/kitfontawesome.js') }}" crossorigin="anonymous"></script>
 
     {{-- DATATABLES --}}
-    <script src="{{asset('assets/js/jquery-3.6.1.min.js')}}"></script>
-    <script src="{{asset('assets/datatables/datatables.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#tabs').DataTable({
@@ -201,7 +209,7 @@
                     [5, 10, 25, 50, "Todo"]
                 ],
                 "language": {
-                    "url": "{{asset('assets/Spanish.json')}}"
+                    "url": "{{ asset('assets/Spanish.json') }}"
                 }
             });
         });
@@ -239,8 +247,12 @@
     <script src="{{ asset('js/toast.js') }}"></script>
 
     <!--    Scripts -->
-<script src="{{asset('assets/js/jspdf.debug.js')}}" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
-<script src="{{asset('assets/js/html2canvas.js')}}" integrity="sha512-sk0cNQsixYVuaLJRG0a/KRJo9KBkwTDqr+/V94YrifZ6qi8+OO3iJEoHi0LvcTVv1HaBbbIvpx+MCjOuLVnwKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('assets/js/jspdf.debug.js') }}"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous">
+    </script>
+    <script src="{{ asset('assets/js/html2canvas.js') }}"
+        integrity="sha512-sk0cNQsixYVuaLJRG0a/KRJo9KBkwTDqr+/V94YrifZ6qi8+OO3iJEoHi0LvcTVv1HaBbbIvpx+MCjOuLVnwKg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @if ($empresa <= 0)
         <script type="text/javascript">

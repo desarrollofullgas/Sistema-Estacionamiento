@@ -6721,3 +6721,20 @@ button.permiso:hover {
     overflow-y: scroll;
 }
 
+/*  */
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #f66565;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgb(34, 33, 33), rgb(94, 88, 88));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgb(34, 33, 33), rgb(94, 88, 88))
+    }
+
+    #gradient-custom{
+        display: flex;
+        align-items: center;
+    }
+

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Usuarios;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class UserShow extends Component
@@ -25,7 +26,7 @@ class UserShow extends Component
 
         $this->status = $user->status;
         $this->tipo = $user->tipo;
-        $this->created_at = $user->created_at;
+        $this->created_at = Carbon::parse($user['created_at'])->isoFormat('D MMMM Y  h:mm:ss A ');
         $this->photo = $user->profile_photo_url;
 
         $this->ShowgUsuario=true;

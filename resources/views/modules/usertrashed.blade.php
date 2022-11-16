@@ -43,7 +43,7 @@
                                                 @can('usuarios_restore')
                                                     {{-- restaurar --}}
                                                     <form method="POST" action="{{ route('user_restore') }}"
-                                                        onsubmit="return confirm('Are you sure you want to restore this user ?');">
+                                                        onsubmit="return confirm('Restaurar Usuario');">
                                                         {{ csrf_field() }}
                                                         <input type="hidden" name="id" value="{{ $user->id }}"
                                                             required />
@@ -54,7 +54,7 @@
                                                     </form>
                                                     {{-- Eliminar Permanente --}}
                                                     <form method="POST" action="{{ route('deleteuser_permanently') }}"
-                                                        onsubmit="return confirm('Are you sure you want to permanently delete this user ?');">
+                                                        onsubmit="return confirm('Eliminar de manera permanente al usuario);">
 
                                                         {{ csrf_field() }}
 
