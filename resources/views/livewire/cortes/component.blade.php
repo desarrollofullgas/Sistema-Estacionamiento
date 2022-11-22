@@ -90,9 +90,11 @@
                     <h2 class="mt-4 text-center">${{ number_format($balance, 2) }}</h2>
                     @if ($balance > 0)
                         @can('cortes_imprimir')
-                            <button
+                            {{-- <button
                                 wire:click.prevent="$emit('info2PrintCorte',{{ $ventas }},{{ $entradas }},{{ $salidas }},{{ $balance }})"
-                                class="btn btn-outline-primary mt-5 text-center">Imprimir Corte</button>
+                                class="btn btn-outline-primary mt-5 text-center">Imprimir Corte</button> --}}
+                                <a href="{{route('corte.pdf')}}"
+                                class="btn btn-outline-primary mt-5 text-center">Imprimir Corte</a>
                         @endcan
                     @endif
                 </div>

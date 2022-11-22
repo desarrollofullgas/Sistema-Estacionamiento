@@ -117,7 +117,7 @@ class CorteController extends Component
 	public function PrintCorte($ventas,$entradas,$salidas,$balance)
 	{
 
-		$nombreImpresora = "eQUAL";
+		$nombreImpresora = "TM20";
 		$connector = new WindowsPrintConnector($nombreImpresora);
 		$impresora = new Printer($connector);	
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;

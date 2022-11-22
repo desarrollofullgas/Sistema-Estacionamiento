@@ -82,7 +82,7 @@
                                         </td>
                                         <td>
                                             <a href="javascript:void(0);"
-                                                onclick='var w = window.open("print/order/{{ $r->id }}", "_blank", "width=100, height=100"); {{--w.close()--}}'
+                                                onclick='var w = window.open("print/order/{{ $r->id }}", "_blank", "width=100, height=100"); w.close()'
                                                 data-toggle="tooltip" data-placement="top" title="Reimprimir Ticket">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"

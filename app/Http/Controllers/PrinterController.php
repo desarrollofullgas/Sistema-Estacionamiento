@@ -144,7 +144,7 @@ class PrinterController extends Controller
 		
 		
 		$folio = str_pad($request->id,7,"0", STR_PAD_LEFT); //formato folio con ceros a la izquierda
-		$nombreImpresora = "TM20"; //nombre impresora
+		$nombreImpresora = "EQUAL"; //nombre impresora
 		$connector = new WindowsPrintConnector($nombreImpresora); //creamos instancia de conexión a la impresora
 		$impresora = new Printer($connector);//le indicamos a la clase de impresión a cuál impresora debe mandarle el ticket
 

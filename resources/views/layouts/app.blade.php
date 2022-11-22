@@ -58,122 +58,76 @@
     @livewire('navigation-menu')
 
     <!-- Page Heading -->
-    <header class="d-flex py-1 bg-transparent responsive">
-        <div class="container">
+    <header class="d-flex py-1 bg-white responsive">
+        <div class="container ">
             {{ $header }}
-            <div class="topbar-nav header navbar responsive" role="banner">
-                <nav id="topbar">
-                    <ul class="list-unstyled menu-categories" id="topAccordion">
-                        <li class="menu single-menu ">
-                            <a href="{{ url('dashboard') }}">
-                                <div>
-                                    <i class="bi bi-house-door-fill"></i>
-                                    <span>DASHBOARD</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="#components">
-                                <div>
-                                    <i class="bi bi-speedometer"></i>
-                                    <span>RENTAS</span>
-                                </div>
-                            </a>
-                            <ul class="collapse submenu list-unstyled" id="components" data-parent="#topAccordion">
-                                <li>
-                                    <a href="{{ url('rentas') }}">ENTRADAS Y SALIDAS </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('extraviados') }}"> TICKETS EXTRAVIADOS </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="#components">
-                                <div class="">
-                                    <i class="bi bi-gear-fill"></i>
-                                    <span>CONFIG</span>
-                                </div>
-                            </a>
-                            <ul class="collapse submenu list-unstyled" id="components" data-parent="#topAccordion">
-                                <li>
-                                    <a href="{{ url('empresa') }}">EMPRESA </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('cajones') }}"> CAJONES </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('tipos') }}"> TIPOS DE VEHÍCULOS </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('permisos') }}"> ROLES Y PERMISOS </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="{{ url('tarifas') }}">
-                                <div class="">
-                                    <i class="bi bi-currency-dollar"></i>
-                                    <span>TARIFAS</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="#tables">
-                                <div class="">
-                                    <i class="bi bi-inboxes-fill"></i>
-                                    <span>CAJA</span>
-                                </div>
-                            </a>
-                            <ul class="collapse submenu list-unstyled" id="tables" data-parent="#topAccordion">
-                                <li>
-                                    <a href="{{ url('cortes') }}"> HACER CORTE </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('movimientos') }}"> MOVIMIENTOS </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="#page">
-                                <div class="">
-                                    <i class="bi bi-graph-up-arrow"></i>
-                                    <span>REPORTES</span>
-                                </div>
-                            </a>
-                            <ul class="collapse submenu list-unstyled" id="page" data-parent="#topAccordion">
-                                <li>
-                                    <a href="{{ url('ventasdiarias') }}"> VENTAS DEL DIA </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('ventasporfechas') }}"> VENTAS POR FECHAS </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('proximasrentas') }}"> RENTAS PRÓXIMAS</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="{{ url('users') }}">
-                                <div class="">
-                                    <i class="bi bi-people-fill"></i>
-                                    <span>USUARIOS</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="menu single-menu">
-                            <a href="{{ url('respaldos') }}">
-                                <div class="">
-                                    <i class="bi bi-people-fill"></i>
-                                    <span>RESPALDOS</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+            <nav>
+                <ul class="nav nav-tabs justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fs-20 " href="{{ url('dashboard') }}"><i class="bi bi-bar-chart-line"></i>Dashboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="nav-link text-dark fs-20 dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-ticket-perforated"></i>Rentas</button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('rentas') }}">ENTRADAS Y SALIDAS </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('extraviados') }}">TICKETS EXTRAVIADOS</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="nav-link text-dark fs-20 dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-gear"></i>Config</button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('empresa') }}">EMPRESA </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('cajones') }}">CAJONES</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('tipos') }}">TIPOS DE VEHÍCULO</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('permisos') }}">ROLES Y PERMISOS</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fs-20" href="{{ url('tarifas') }}"><i class="bi bi-currency-dollar"></i>Tarifas</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="nav-link text-dark fs-20 dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-printer"></i>Caja</button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('cortes') }}">HACER CORTE </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('movimientos') }}">MOVIMIENTOS</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="nav-link text-dark fs-20 dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-newspaper"></i>Reportes</button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ url('ventasdiarias') }}">VENTAS DEL DIA </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('ventasporfechas') }}">VENTAS POR FECHA</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url('proximasrentas') }}">RENTAS PROXIMAS</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fs-20" href="{{ url('users') }}"><i class="bi bi-people"></i>Usuarios</a>
+                    </li>
+                </ul>
+            </nav>
+    </header> 
 
     <!-- Page Content -->
     <main class="container my-5">
