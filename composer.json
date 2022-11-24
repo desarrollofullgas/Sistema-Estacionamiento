@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.0.2",
         "arielmejiadev/larapex-charts": "^5.2",
-        "backpack/backupmanager": "^4.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "codedge/laravel-fpdf": "^1.9",
         "guzzlehttp/guzzle": "^7.2",
