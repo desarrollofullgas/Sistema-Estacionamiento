@@ -181,7 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        
 
 
         /*
@@ -199,7 +199,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 
