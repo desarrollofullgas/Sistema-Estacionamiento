@@ -1,8 +1,9 @@
 <x-guest-layout>
+    @section('title','Politicas de Privacidad')
     <div class="row justify-content-center pt-4">
         <div class="col-6">
             <div>
-                <p align="center"><img src="{{ asset('img/logo/FullGas_rojo2.jpeg') }}" style="width: 250px !important"
+                <p align="center"><img src="{{ asset('img/logotype/FullGasLogo.png') }}" style="width: 250px !important"
                     alt="FullGas"></p>
             </div>
 

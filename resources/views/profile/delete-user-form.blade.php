@@ -1,4 +1,4 @@
-<x-jet-action-section>
+{{-- <x-jet-action-section>
     <x-slot name="title">
         {{ __('Eliminar Cuenta') }}
     </x-slot>
@@ -48,10 +48,10 @@
                         <span class="visually-hidden">Loading...</span>
                     </div> --}}
 
-                    {{ __('Eliminar Cuenta') }}
+                    {{-- {{ __('Eliminar Cuenta') }}
                 </x-jet-danger-button>
             </x-slot>
         </x-jet-dialog-modal>
     </x-slot>
 
-</x-jet-action-section>
+</x-jet-action-section> --}}
