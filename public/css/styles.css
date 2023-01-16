@@ -3950,6 +3950,7 @@ textarea.form-control-lg {
 .nav {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -11823,6 +11824,12 @@ a {
 a.users {
   text-decoration: none;
   color: white;
+}
+
+@media (max-width:480px) {
+  .nav{
+    background-color: red;
+  }
 }
 /* fin botones */
 

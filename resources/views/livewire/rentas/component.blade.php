@@ -123,6 +123,9 @@
                 </div>
             </div>
         </div>
+        {{-- modal salida --}}
+        
+        
     @elseif($section == 2)
         @include('livewire.rentas.salidas')
     @elseif($section == 3)
@@ -131,11 +134,15 @@
 </div>
 
 <script>
+    window.onload=()=>{
+        startTime();
+    }
     function openModal(tarifa, cajon) {
         $('#tarifa').val(tarifa)
         $('#cajon').val(cajon)
 
         $('#modalRenta').modal('show')
+        startTime();
     }
 
 
@@ -160,8 +167,8 @@
 
 
         window.livewire.on('print', ticket => {
-            var ruta = "{{ url('print/order') }}" + '/' + ticket
-            var w = window.open(ruta, "_blank", "width=100, height=100");
+            var ruta = "{{ url('print/order') }}" + '/' + ticket;
+            var w = window.open(ruta, "_blank", "width=400, height=600");
             //w.close()  descomentar para que se cierre la ventana del ticket
         })
 
@@ -187,7 +194,7 @@
     })
 </script>
 
-
+<script src="{{ asset('js/main.js') }}" defer></script>
 <script src="{{ asset('js/onscan.js') }}"></script>
 
 

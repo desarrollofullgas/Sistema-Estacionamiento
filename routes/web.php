@@ -50,6 +50,18 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(fun
 	Route::view('proximasrentas', 'modules.proximasrentas')->middleware('permission:reporte_rentasavencer_index','verified');
 
     //rutas de impresión
-Route::get('print/order/{id}', [PrinterController::class, 'TicketVisita'])->name('print/order');
+	//Route::get('print/order/{id}',[Printer]
+	/* function (Codedge\Fpdf\Fpdf\Fpdf $fpdf ,$id) {
+
+		$fpdf->AddPage();
+		$fpdf->SetFont('Courier', 'B', 18);
+		$fpdf->Cell(50, 25, 'Hello World!'.$id.'--------------------------------');
+		$fpdf->Output();
+		exit;
+	
+	} *///);
+Route::get('print/order/{id}', [PrinterController::class, 'PDF']);
+
+//Route::get('print/order/{id}', [PrinterController::class, 'TicketVisita'])->name('print/order');
 Route::get('ticket/pension/{id}', [PrinterController::class, 'TicketPension'])->name('#');
 });

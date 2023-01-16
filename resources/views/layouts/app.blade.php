@@ -37,14 +37,14 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/main.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/main.js') }}" defer></script> --}}
 
     {{-- DATATABLES --}}
     <link rel="stylesheet" href="{{ asset('assets/datatables/datatables.min.css') }}">
 
 </head>
-
-<body class="font-sans antialiased" onload="startTime()">
+<body class="font-sans antialiased">
+{{-- <body class="font-sans antialiased" onload="startTime()"> --}}
     <!-- BEGIN LOADER -->
     <div id="load_screen">
         <div class="loader">
@@ -62,7 +62,10 @@
         <div class="container ">
             {{ $header }}
             <nav>
-                <ul class="nav nav-tabs justify-content-center">
+                <div id="mobile_menu" class="icon-menu">
+                    <i class="bi bi-list"></i>
+                </div>
+                <ul id="nav" class="nav nav-tabs oculto">
                     <li class="nav-item">
                         <a class="nav-link text-dark fs-20 " href="{{ url('dashboard') }}"><i class="bi bi-bar-chart-line"></i>Dashboard</a>
                     </li>
@@ -254,7 +257,7 @@
             toastr.error(msgText.toUpperCase(), "Alerta!");
         })
     </script>
-
+    <script src="./js/events.js"></script>
 </body>
 
 </html>

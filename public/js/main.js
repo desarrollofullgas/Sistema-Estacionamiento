@@ -1,3 +1,5 @@
+const { update } = require("lodash");
+
 //Tiempo
 function startTime() {
     let today = new Date();

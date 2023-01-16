@@ -30,7 +30,7 @@
                                             placeholder="Ingresa el número de ticket o Escanea el código de barras"
                                             autofocus>
                                         <div class="input-group-append ml-4">
-                                            <span wire:click="BuscarTicket()" class="input-group-text "
+                                            <span wire:click="BuscarTicket()" script="" class="input-group-text "
                                                 style="cursor:pointer; "><i class="la la-print la-lg "></i> Salida de
                                                 Vehículo</span>
                                         </div>

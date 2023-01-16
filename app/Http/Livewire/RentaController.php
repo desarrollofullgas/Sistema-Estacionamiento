@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\Vehiculo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+//use Config\FPDF;
+use Codedge\Fpdf\Fpdf\Fpdf;
 
 class RentaController extends Component
 {
@@ -295,9 +297,12 @@ return;
       $this->barcode ='';
       $this->emit('getout-error', 'No se pudo registrar la salida :/');
     }
-
+    //genPDF();
   }
-
+public function genPDF() {
+  $this->emit("hola");
+  
+}
 
 //Ticket rápido de entrada de vehículos
   public function TicketVisita()

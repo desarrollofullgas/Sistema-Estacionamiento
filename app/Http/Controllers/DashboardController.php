@@ -55,7 +55,7 @@ $weekSales = DB::select(DB::raw($sql));
 $chartVentaSemanal = new LarapexChart();
 $chartVentaSemanal->setTitle('Ventas Semana Actual')
 ->setLabels(['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'])
-->setType('donut')        
+->setType('pie')        
 ->setDataset([intval($weekSales[0]->total),
   intval($weekSales[1]->total),
   intval($weekSales[2]->total),
@@ -88,7 +88,7 @@ $salesByMonth = DB::select(DB::raw("
 $chartVentaxMes = (new LarapexChart)->setType('area')
 ->setTitle('Ventas Anuales')
 ->setSubtitle('Por Mes')
-->setGrid(true)
+->setGrid()
 ->setXAxis([
   'Enero', 'Febrero', 'Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
 ])

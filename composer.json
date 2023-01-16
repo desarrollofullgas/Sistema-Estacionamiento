@@ -8,7 +8,8 @@
         "php": "^8.0.2",
         "arielmejiadev/larapex-charts": "^5.2",
         "barryvdh/laravel-dompdf": "^2.0",
-        "codedge/laravel-fpdf": "^1.9",
+        "codedge/laravel-fpdf": "^1.10",
+        "dompdf/dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.19",
@@ -17,11 +18,10 @@
         "laravel/slack-notification-channel": "^2.4",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.5",
-        "maatwebsite/excel": "^3.1",
+        "maatwebsite/excel": "^1.1",
         "mike42/escpos-php": "^2.2",
         "psr/simple-cache": "1.0",
         "realrashid/sweet-alert": "^5.1",
-        "spatie/laravel-backup": "^8.1",
         "spatie/laravel-permission": "^5.5"
     },
     "require-dev": {

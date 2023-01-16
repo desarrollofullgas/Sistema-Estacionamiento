@@ -114,6 +114,7 @@
     </div>
     <script>
         //ventas diarias
+        import {jsPDF} from "jspdf";
         var vdiarias = document.getElementById('vdiarias'),
             pdfout = document.getElementById('pdfout');
         pdfout.onclick = function() {
