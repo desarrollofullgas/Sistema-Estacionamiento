@@ -59,8 +59,6 @@
     <div class="info">
         <p><b>No. de ticket: </b>{{$datos->barcode}}</p>
         <p><b>Acceso: </b>{{$datos->acceso}}</p>
-        <p><b>Tiempo Transcurrido: </b>{{ $datos->hours }}</p>
-        <p><b>Total: $</b>{{ number_format($datos->total, 2) }}</p>
         <p><b>Placas del vehículo: </b>{{$datos->descripcion}}</p>
     </div>
     

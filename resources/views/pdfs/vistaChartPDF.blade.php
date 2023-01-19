@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ticket de Salida</title>
+    <title>Chart</title>
     <style>
         *{
             margin: 0;
@@ -29,40 +29,35 @@
             gap:1rem;
         }
         .head h1{
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: white;
             padding: 0.5rem;
             background-color: black;
         }
-        h2{
-            margin-top: 0.5rem;
-        }
         .red{
             color:red;
         }
-        .info{
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem;
-            font-size: 1.2rem;
+        figure{
+            width: 80%;
+            margin: 2rem auto;
         }
-        .info p{
-            padding-top: 1rem;
+        img{
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <div class="head">
-        <h1><b class="red">FULL</b>GAS</h1>
-        <h2>Ticket de salida del estacionamiento</h2>
+        <h1><b class="red">Full</b>Gas</h1>
     </div>
-    <div class="info">
-        <p><b>No. de ticket: </b>{{$datos->barcode}}</p>
-        <p><b>Acceso: </b>{{$datos->acceso}}</p>
-        <p><b>Tiempo Transcurrido: </b>{{ $datos->hours }}</p>
-        <p><b>Total: $</b>{{ number_format($datos->total, 2) }}</p>
-        <p><b>Placas del vehículo: </b>{{$datos->descripcion}}</p>
-    </div>
-    
-</body>
+    <figure>
+        <img src="{{$chart}}" alt="chart">
+    </figure>
+   
+    {{-- <p>alkhqsb</p>
+    <p>{{$chart}}</p> --}}
+    {{-- {!! $chart->container() !!}
+    <script src="{{ asset('larapex-charts/apexcharts.js') }}"></script>
+    {!! $chart->script() !!}
+</body> --}}
 </html>

@@ -7,11 +7,13 @@ use App\Models\Renta;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+
 
 class DashboardController extends Controller
 {
-  
+  public $chartVentaSemanalPDF;
    public function data()
 	{
     $currentYear =  date("Y");
@@ -64,6 +66,7 @@ $chartVentaSemanal->setTitle('Ventas Semana Actual')
   intval($weekSales[5]->total),
   intval($weekSales[6]->total)
 ]);
+$chartVentaSemanalPDF=$chartVentaSemanal;
 
 //ventas por mes
 $salesByMonth = DB::select(DB::raw("
@@ -123,7 +126,7 @@ for ($i=0; $i <12; $i++) {
 }
 $listBalance;
 for ($i=0; $i <12; $i++) { 
-  $listBalance[$i] = number_format($listVentas[$i] - $listGastos[$i],2);
+  $listBalance[$i] =number_format($listVentas[$i] - $listGastos[$i],2);
 }
 $chartBalancexMes = (new LarapexChart)->setTitle('Balance Anual')        
 ->setType('bar')

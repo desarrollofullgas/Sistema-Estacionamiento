@@ -121,7 +121,9 @@
             const balance=document.getElementById("balance").textContent;
             const combo= document.getElementById("operador");
             const operadorText= combo.options[combo.selectedIndex].text;
-            const layout= document.getElementById("pdf_layout");
+
+            const corte="?v="+ventas+"&e="+entrada+"&ex="+salida+"&b="+balance+"&o="+operadorText+"&d="+fecha;
+            /*const layout= document.getElementById("pdf_layout");
             layout.classList.toggle("pdf_card");
             const template=`
             <p>Fecha: ${fecha}</p>
@@ -140,11 +142,13 @@
             window.print();
             setTimeout(() => {
                 layout.classList.toggle("pdf_card");
-            }, 1);
+            }, 1); */ 
              //const doc = new jsPDF();
 
             // doc.text("Hello world!", 10, 10);
             // doc.save("a4.pdf");
+             var ruta = "{{ url('print/corte') }}" + corte ;
+            var w = window.open(ruta, "_blank", "width=400, height=600"); 
         }
     </script>
     {{-- <script src="{{ asset('js/exportar.js') }}">

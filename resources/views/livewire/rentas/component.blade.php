@@ -3,8 +3,8 @@
         {{-- topmenu --}}
     </x-slot>
     @if ($section == 1)
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
+        <div class="colum--reverse">
+            <div class="col-sm-12 col-md-12">
                 <div class="card m-0-ps">
                     <div class="card-header">
                         <div class="card-title">Rentas. <span class="text-bold" style="color: #72f14c">(Desocupado</span>
@@ -40,9 +40,9 @@
                     <input type="hidden" id="cajon" />
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6">
+            <div class="col-sm-12 col-md-12">
                 <div class="card m-0 container-main">
-                    <div class="card-header p-2 flex-wrap">
+                    {{-- <div class="card-header p-2 flex-wrap">
                         <div id="clockdate" class="w-100">
                             <div class="clockdate-wrapper">
                                 <div id="clock">
@@ -52,7 +52,7 @@
                                 <div id="date"></div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12 col-md-6">
@@ -134,15 +134,27 @@
 </div>
 
 <script>
-    window.onload=()=>{
-        startTime();
+    function genPDF(){
+        window.livewire.on('print', ticket => {
+            var ruta = "{{ url('print/order') }}" + '/' + ticket;
+            var w = window.open(ruta, "_blank", "width=400, height=600");
+            //w.close()  descomentar para que se cierre la ventana del ticket
+        });
     }
+    /* window.onload=()=>{
+        startTime();
+    } */
     function openModal(tarifa, cajon) {
         $('#tarifa').val(tarifa)
         $('#cajon').val(cajon)
 
         $('#modalRenta').modal('show')
-        startTime();
+        //startTime();
+        window.livewire.on('print', ticket => {
+            var ruta = "{{ url('printIn/order') }}" + '/' + ticket;
+            var w = window.open(ruta, "_blank", "width=400, height=600");
+            //w.close()  descomentar para que se cierre la ventana del ticket
+        });
     }
 
 
@@ -166,17 +178,17 @@
         })
 
 
-        window.livewire.on('print', ticket => {
+        /* window.livewire.on('print', ticket => {
             var ruta = "{{ url('print/order') }}" + '/' + ticket;
             var w = window.open(ruta, "_blank", "width=400, height=600");
             //w.close()  descomentar para que se cierre la ventana del ticket
-        })
+        }) */
 
-        window.livewire.on('print-pension', ticketP => {
+       /*  window.livewire.on('print-pension', ticketP => {
             var ruta = "{{ url('ticket/pension') }}" + '/' + ticketP
             var w = window.open(ruta, "_blank", "width=100, height=100");
             //w.close()  descomentar para que se cierre la ventana del ticket
-        })
+        }) */
 
         window.livewire.on('getin-ok', resultText => {
             $('#comment').val('')
@@ -194,7 +206,7 @@
     })
 </script>
 
-<script src="{{ asset('js/main.js') }}" defer></script>
+{{-- <script src="{{ asset('js/main.js') }}" defer></script> --}}
 <script src="{{ asset('js/onscan.js') }}"></script>
 
 

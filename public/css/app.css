@@ -19332,6 +19332,14 @@ nav{
   z-index: 1;
   transition: color 0.5s;
 }
+.colum--reverse{
+  display: flex;
+  flex-direction: column-reverse;
+  gap:15px;
+}
+.width--full{
+  width: 100%;
+}
 @media screen and (max-width:480px) {
   .oculto{
     display: none;

@@ -4,7 +4,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +63,19 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(fun
 		exit;
 	
 	} *///);
-Route::get('print/order/{id}', [PrinterController::class, 'PDF']);
+	
+	Route::get('print/graphic/week', [PrinterController::class, 'chartWeek']);
+	Route::get('print/graphic/month', [PrinterController::class, 'chartMonth']);
+	Route::get('print/graphic/BalanceAnual', [PrinterController::class, 'chartBalanceAnual']);
+	Route::get('printIn/order/{id}', [PrinterController::class, 'InPDF']);
+	Route::get('print/order/{id}', [PrinterController::class, 'PDF']);
+	Route::get('print/corte', (function (Request $request){
+		
+		//PrinterController::cortePDF($data);
+		$pdf=PDF::loadView('pdfs.vistaCortePDF',['data' => $request]);
+		return $pdf->stream();
+		//return $data['v'];
+	}));
 
 //Route::get('print/order/{id}', [PrinterController::class, 'TicketVisita'])->name('print/order');
 Route::get('ticket/pension/{id}', [PrinterController::class, 'TicketPension'])->name('#');

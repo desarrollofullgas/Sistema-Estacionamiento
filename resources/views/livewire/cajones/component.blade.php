@@ -5,7 +5,7 @@
     </x-slot>
     <div class="row">
         @if ($action == 1)
-            <div class="col-sm-12 col-md-10">
+            <div class="col-sm-12 col-md-9">
                 <div class="card m-0 ps">
                     <div class="card-header">
                         <div class="card-title">Cajones del sistema.</div>

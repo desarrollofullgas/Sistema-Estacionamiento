@@ -14,6 +14,8 @@ use App\Models\Tarifa;
 use Carbon\Carbon;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
+use App\Models\Caja;
 
 class PrinterController extends Controller
 {
@@ -230,11 +232,151 @@ class PrinterController extends Controller
 		$fpdf
 	}  *///alt-shif-a
 
+	function InPDF($id){
+		$ticket = Renta::where('id', $id)->select('*')->first();  
+		$pdf = PDF::setPaper('A8');
+		return $pdf->loadView('pdfs.vistaEntradaPDF' , ['datos' => $ticket])->stream();	
+	}
 	function PDF($id){
 		$ticket = Renta::where('id', $id)->select('*')->first();
-
-		$pdf = PDF::loadView('pdfs.vistaPDF', ['datos' => $ticket]);
-		return $pdf->download('itsolutionstuff.pdf');
+		$tiempo = $this->CalcularTiempo($ticket->acceso);
+		$ticket->hours = $tiempo;  
+		$pdf = PDF::setPaper('A8');
 		
+		return $pdf->loadView('pdfs.vistaPDF' , ['datos' => $ticket])->stream();//download('TICKET'.$ticket->barcode.'.pdf');	
+	}
+	public function CalcularTiempo($fechaEntrada)
+	{
+	  $start  =  Carbon::parse($fechaEntrada);
+	  $end    = new \DateTime(Carbon::now());     
+	  $tiempo = $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');  
+	  return $tiempo;
+	}
+	function chartWeek(){
+		$currentYear =  date("Y");
+		//ventas semana actual
+		  $start = date('Y-m-d', strtotime('monday this week')); //obtenemos el 1er dia de la semana actual
+		  $finish = date('Y-m-d', strtotime('sunday this week'));  //obtenemos el ultimo dia
+				
+		  $d1 = strtotime($start); //convertir fecha inicial en formato unix
+		  $d2 = strtotime($finish); 
+		  $array = array(); 
+	  
+		  for ($currentDate = $d1; $currentDate <= $d2; $currentDate += (86400)) 
+		  { 
+			$dia = date('Y-m-d', $currentDate); //convertimos el dia unix a formato ingles
+			$array[] = $dia;            
+		  } 
+	  
+		  $sql ="SELECT c.fecha, IFNULL(c.total,0) as total FROM (
+		  SELECT '$array[0]' AS fecha 
+		  UNION 
+		  SELECT '$array[1]' AS fecha 
+		  UNION 
+		  SELECT '$array[2]' AS fecha 
+		  UNION 
+		  SELECT '$array[3]' AS fecha 
+		  UNION 
+		  SELECT '$array[4]' AS fecha
+		  UNION
+		  SELECT '$array[5]' AS fecha
+		  UNION
+		  SELECT '$array[6]' AS fecha
+		) d
+		LEFT JOIN(
+		SELECT SUM(total)AS total, DATE(created_At)AS fecha FROM rentas WHERE created_at BETWEEN '$start' AND '$finish' AND estatus ='CERRADO'
+		GROUP BY DATE(created_At)
+	  )c  ON d.fecha = c.fecha";
+	  $weekSales = DB::select(DB::raw($sql));
+
+	  $url="https://quickchart.io/chart?c={ 
+		type: 'pie', 
+		data: { 
+				datasets: [ 
+					{ data: [".$weekSales[0]->total.", ".$weekSales[1]->total.", ".$weekSales[2]->total.",".$weekSales[3]->total.",".$weekSales[4]->total.", ".$weekSales[5]->total.", ".$weekSales[6]->total."],
+		backgroundColor: [
+		'rgb(253, 159, 179)',
+		'rgb(255, 159, 64)',
+		'rgb(255, 205, 86)',
+		'rgb(75, 192, 192)',
+		'rgb(54, 162, 235)',
+		'rgb(218, 247, 166)',
+		'rgb(181, 241, 164)',
+	  ], }, ], 
+	  labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes','Sábado','Domingo'], 
+	}, }";
+	  return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
+	  //return view('pdfs.vistaChartPDF',['chart' =>$chartVentaSemanal]);
+	}
+	function chartMonth(){
+		$currentYear =  date("Y");
+		$salesByMonth = DB::select(DB::raw("
+		SELECT m.MONTH AS MES, IFNULL(c.ventas,0)AS VENTAS, IFNULL(c.rentas,0) as TRANSACCIONES  FROM(
+		SELECT 'January' AS MONTH  UNION  SELECT 'February' AS MONTH 
+		UNION   SELECT 'March' AS MONTH  UNION 
+		SELECT 'April' AS MONTH  UNION  SELECT 'May' AS MONTH 
+		UNION  SELECT 'june' AS MONTH  UNION 
+		SELECT 'July' AS MONTH  UNION  SELECT 'August' AS MONTH 
+		UNION  SELECT 'September' AS MONTH  UNION 
+		SELECT 'October' AS MONTH  UNION  SELECT 'November' AS MONTH 
+		UNION  SELECT 'December' AS MONTH 
+		)m
+		left join(
+		SELECT MONTHNAME(acceso) AS MONTH, COUNT(*) AS rentas, SUM(total)AS ventas 
+		FROM rentas 
+		WHERE YEAR(acceso)=$currentYear
+		GROUP BY MONTHNAME(acceso),MONTH(acceso) 
+		ORDER BY MONTH(acceso)
+		)  c ON m.MONTH =c.MONTH
+		"));
+		
+		$url="https://quickchart.io/chart?c={ 
+			type: 'line', 
+			data: { 
+				labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiember', 'Octubre', 'Noviembre', 'Diciembre'], 
+				datasets: [ { 
+					backgroundColor: 'rgba(0,143,251, 0.5)', 
+					borderColor: 'rgb(0,143,251)', 
+					data: [".$salesByMonth[0]->VENTAS.", ".$salesByMonth[1]->VENTAS.", ".$salesByMonth[2]->VENTAS.", "
+					.$salesByMonth[3]->VENTAS.", ".$salesByMonth[4]->VENTAS.",".$salesByMonth[5]->VENTAS.","
+					.$salesByMonth[6]->VENTAS.",".$salesByMonth[7]->VENTAS.",".$salesByMonth[8]->VENTAS.","
+					.$salesByMonth[9]->VENTAS.",".$salesByMonth[10]->VENTAS.",".$salesByMonth[11]->VENTAS."], 
+					label: 'Año ".$currentYear."', fill: 'start', }, ], }, 
+					 }";
+		  return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
+	}
+	function chartBalanceAnual(){
+        $currentYear =  date("Y");
+		$listVentas;
+		for ($i=0; $i <12; $i++) { 
+		$listVentas[$i] = Renta::whereMonth('acceso',$i+1)->whereYear('acceso', $currentYear)->sum('total');
+		}
+		$listGastos;
+		for ($i=0; $i <12; $i++) { 
+		$listGastos[$i] = Caja::where('tipo','<>','Ingreso')->whereMonth('created_at',$i+1)->whereYear('created_at', $currentYear)->sum('monto');
+		}
+		$listBalance;
+		for ($i=0; $i <12; $i++) { 
+		$listBalance[$i] = $listVentas[$i] - $listGastos[$i];
+		}
+		//$url="".$listBalance[0]."---".implode(",",$listBalance);
+		;//el array lo pasamos a un estring, cada dato separado por una coma
+		
+		$url="https://quickchart.io/chart?v=2.9.4&c={ 
+			type: 'bar', 
+			data: { 
+				labels: ['Ene', 'Feb', 'Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'], 
+				datasets: [ 
+					{ label: 'Ventas', data: [".implode(",",$listVentas)."],backgroundColor: 'rgb(46,204,113)', }, 
+					{ label: 'Gastos', data: [".implode(",",$listGastos)."],backgroundColor: 'rgb(231,76,60)' }, 
+					{ label: 'Balance', data: [".implode(",",$listBalance)."],backgroundColor: 'rgb(0,143,251)' }, 
+				], }, 
+				options: {
+					title: {
+					  display: true,
+					  text: 'Balance Anual',
+					}
+				  }}";
+		return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
 	}
 }

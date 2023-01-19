@@ -4,9 +4,9 @@
 
     </x-slot>
     <div class="container">
-        <p class="warning">* Al momento de descargar alguna gráfica <b>Habilitar</b> la opción <i>"Gráficos de fondo"</i> antes de guardar.</p>
+        <p class="warning">* <i><b>Para descargar las gráficas se requiere conexión a internet</b> </i></p>
         <div class="row">
-            <div class="col-sm-12 col-md-8">
+            <div class="col-sm-12 col-md-6">
                 <div class="card">
                     <div class="icon_download" onclick="pdf('mes')">
                         <i class="bi bi-download"></i>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-5">
                 <div class="card">
                     <div class="icon_download" onclick="pdf('semanal')">
                         <i class="bi bi-download"></i>
@@ -53,23 +53,30 @@
         function pdf(tipo) {
             const layout = document.getElementById("pdf_layout");
             let chart;
+            let ruta="";
             let template;
             if(tipo==="semanal"){
-                chart=document.getElementById('semanal');            
+                //chart=document.getElementById('semanal');   
+                ruta = "{{ url('print/graphic/week') }}";
+                var w = window.open(ruta, "_blank", "width=400, height=600");          
             }
             if(tipo==="mes"){
-                chart=document.getElementById('mes');            
+                //chart=document.getElementById('mes');
+                ruta = "{{ url('print/graphic/month') }}";
+                var w = window.open(ruta, "_blank", "width=400, height=600");            
             }
             if(tipo==="year"){
                 chart=document.getElementById('year');
+                ruta = "{{ url('print/graphic/BalanceAnual') }}";
+                var w = window.open(ruta, "_blank", "width=400, height=600"); 
             }
-            layout.classList.toggle("pdf_card");
+            /* layout.classList.toggle("pdf_card");
             layout.innerHTML=chart.innerHTML;
             setTimeout(() => {
                 layout.classList.toggle("pdf_card");
                 layout.innerHTML="";
             }, 1);
-            window.print();
+            window.print(); */
             
         }
 

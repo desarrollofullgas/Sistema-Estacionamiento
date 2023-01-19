@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Renta;
 use App\Models\Caja;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CorteController extends Component
 {
