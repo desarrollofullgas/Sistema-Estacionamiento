@@ -4,9 +4,12 @@
             <form>
                 <div class="row">
                     <div class="form-group col-sm-12 col-md-4">
-                        <label>Tiempo</label>
-                        <select wire:model="tiempo" class="form-control text-center">
+                        <label for="time">Tiempo</label>
+                        <select id="time" wire:model="tiempo" class="form-control text-center">
                             <option value="Elegir">Elegir</option>
+                            <option value="15 minutos">15 minutos</option>
+                            <option value="30 minutos">30 minutos</option>
+                            <option value="45 minutos">45 minutos</option>
                             <option value="Hora">Hora</option>
                             <option value="Día">Día</option>
                             <option value="Semana">Semana</option>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\PrinterController;
 use App\Models\ClienteVehiculo;
 use Livewire\Component;
 use App\Models\Cajon;
@@ -10,10 +11,12 @@ use App\Models\Tarifa;
 use App\Models\Tipo;
 use App\Models\User;
 use App\Models\Vehiculo;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 //use Config\FPDF;
 use Codedge\Fpdf\Fpdf\Fpdf;
+
 
 class RentaController extends Component
 {
@@ -158,12 +161,24 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
     if ( in_array($m, range(0,5)) ) { // después de la 1ra hora, se dan 5 minutos de tolerancia al cliente
            //
     }
-    else if ( in_array($m, range(6,30)) ){
+    else if ( in_array($m, range(6,15)) ){
+      $fraccion = ($tarifa->costo / 4);
+    } 
+    else if ( in_array($m, range(16,30)) ){
+      $fraccion = ($tarifa->costo / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
+    }
+    else if ( in_array($m, range(31,45)) ){
+      $fraccion = ($tarifa->costo * 0.75);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
+    }
+    else if ( in_array($m, range(46,59)) ){
+          $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
+        }
+    /* else if ( in_array($m, range(6,30)) ){
         $fraccion = ($tarifa->costo / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
       }
       else if ( in_array($m, range(31,59)) ){
             $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
-          }
+          } */
         }
 
         //retornamos el total a cobrar
@@ -201,18 +216,29 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
        //generamos el código de barras a 7 dígitos para imprimir el ticket con el estándar cod39
        $renta->barcode = sprintf('%07d', $renta->id); 
        $renta->save();
-
+      /*  $txtOK=false;
+       $txtPlaca=explode('',$comment);
+       for($i=0;$i<strlen($comment);$i++){
+          $txtPlaca[$i]
+       } */
+      $plateNumber = "/\w/";
+      if(preg_match($plateNumber,$comment)){
+        $this->emit('getin-ok','NICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
+      }
+      else{
+        $this->emit('getin-ok',$comment);
+      }
        //enviamos feedback al user
        $this->barcode ='';   
        $this->descripcion ='';          
-      $this->emit('getin-ok','Entrada Registrada en Sistema');
+      //$this->emit('getin-ok','Entrada Registrada en Sistema');
        $this->emit('print', $renta->id);
 
 
      }
 
 
-//método para calcular el tiempo que estuvo el vehículo en el estacionamiento
+ //método para calcular el tiempo que estuvo el vehículo en el estacionamiento
      public function CalcularTiempo($fechaEntrada)
      {
        $start  =  Carbon::parse($fechaEntrada);
@@ -273,9 +299,9 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
      $ticket->salida = Carbon::now();
      $ticket->estatus = 'CERRADO';
      if($ticket->vehiculo_id == null)  $ticket->total = $nuevoTotal; 
-     $ticket->hours = $tiempo;  
+     $ticket->hours = $tiempo; 
      $ticket->save();
-
+    
    //ponemos el cajón disponible
      if($ticket->cajon_id > 0 )
      {
@@ -290,7 +316,7 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
        $this->section = 1;
        $this->emit('getout-ok', 'Salida Registrada Con Éxito');
     $this->emit('print', $ticket->id);  //descomentar para imprimir
-return;
+ return;
      }   
      else {
       $this->barcode ='';
@@ -299,9 +325,12 @@ return;
     }
     //genPDF();
   }
-public function genPDF() {
-  $this->emit("hola");
-  
+public function genPDF($id) {
+  $ticket = Renta::where('barcode', $id)->select('*')->first();
+		$tiempo = $this->CalcularTiempo($ticket->acceso);
+		$ticket->hours = $tiempo;  
+		$pdf = PDF::setPaper('A8');
+		return $pdf->loadView('pdfs.vistaPDF' , ['datos' => $ticket])->stream();
 }
 
 //Ticket rápido de entrada de vehículos

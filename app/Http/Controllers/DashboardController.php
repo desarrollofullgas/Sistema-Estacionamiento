@@ -65,7 +65,15 @@ $chartVentaSemanal->setTitle('Ventas Semana Actual')
   intval($weekSales[4]->total),
   intval($weekSales[5]->total),
   intval($weekSales[6]->total)
-]);
+])
+->setColors([
+'rgb(253, 159, 179)',
+'rgb(255, 159, 64)',
+'rgb(255, 205, 86)',
+'rgb(75, 192, 192)',
+'rgb(54, 162, 235)',
+'rgb(218, 247, 166)',
+'rgb(181, 241, 164)']);
 $chartVentaSemanalPDF=$chartVentaSemanal;
 
 //ventas por mes

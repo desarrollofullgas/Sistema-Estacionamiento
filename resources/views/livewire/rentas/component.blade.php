@@ -103,7 +103,7 @@
                         <input type="text"
                             wire:keydown.enter="$emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() )"
                             id="comment" maxlength="7" class="form-control text-center" placeholder="PLACA" autofocus
-                            autocomplete="off">
+                            autocomplete="off" minlength="5">
                         <div class="leyenda">
                             <small>Presiona Enter para Agregar</small>
                             <kbd class="kbc-button">
@@ -134,6 +134,7 @@
 </div>
 
 <script>
+    let textPlaca ="";
     function genPDF(){
         window.livewire.on('print', ticket => {
             var ruta = "{{ url('print/order') }}" + '/' + ticket;
@@ -163,12 +164,13 @@
         window.livewire.emit(eventName, barcode, actionValue)
         $('#modalRenta').modal('hide')
         $('#comment').val('')
+        //genPDF();
     }
 
 
     document.addEventListener('DOMContentLoaded', function() {
 
-
+        textPlaca ="";
         $('body').on('click', '.saveRenta', function() {
             var ta = $('#tarifa').val()
             var ca = $('#cajon').val()

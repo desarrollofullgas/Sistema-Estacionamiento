@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Livewire\RentaController;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
@@ -242,8 +243,8 @@ class PrinterController extends Controller
 		$tiempo = $this->CalcularTiempo($ticket->acceso);
 		$ticket->hours = $tiempo;  
 		$pdf = PDF::setPaper('A8');
+		return $pdf->loadView('pdfs.vistaPDF' , ['datos' => $ticket])->stream();//download('TICKET'.$ticket->barcode.'.pdf');
 		
-		return $pdf->loadView('pdfs.vistaPDF' , ['datos' => $ticket])->stream();//download('TICKET'.$ticket->barcode.'.pdf');	
 	}
 	public function CalcularTiempo($fechaEntrada)
 	{
@@ -304,7 +305,8 @@ class PrinterController extends Controller
 		'rgb(181, 241, 164)',
 	  ], }, ], 
 	  labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes','Sábado','Domingo'], 
-	}, }";
+	},
+ }";
 	  return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
 	  //return view('pdfs.vistaChartPDF',['chart' =>$chartVentaSemanal]);
 	}

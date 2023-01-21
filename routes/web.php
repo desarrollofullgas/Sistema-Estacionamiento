@@ -63,14 +63,21 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(fun
 		exit;
 	
 	} *///);
-	
+	//Creamos grupo de rutas
+	/* Route::controller(PrinterController::class)->group(function(){
+		Route::get('print/graphic/week', 'chartWeek');
+		Route::get('print/graphic/month','chartMonth');
+		Route::get('print/graphic/BalanceAnual', 'chartBalanceAnual');
+		Route::get('printIn/order/{id}', 'InPDF');
+		//Route::get('print/order/{id}', 'PDF');
+	}); */
+
 	Route::get('print/graphic/week', [PrinterController::class, 'chartWeek']);
 	Route::get('print/graphic/month', [PrinterController::class, 'chartMonth']);
 	Route::get('print/graphic/BalanceAnual', [PrinterController::class, 'chartBalanceAnual']);
 	Route::get('printIn/order/{id}', [PrinterController::class, 'InPDF']);
-	Route::get('print/order/{id}', [PrinterController::class, 'PDF']);
-	Route::get('print/corte', (function (Request $request){
-		
+	Route::get('print/order/{id}', [PrinterController::class, 'PDF']); 
+	Route::get('print/corte', (function (Request $request){	
 		//PrinterController::cortePDF($data);
 		$pdf=PDF::loadView('pdfs.vistaCortePDF',['data' => $request]);
 		return $pdf->stream();

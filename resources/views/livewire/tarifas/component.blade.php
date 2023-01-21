@@ -32,7 +32,7 @@
                                                 <td>{{ $r->id }}</td>
                                                 <td>{{ $r->tiempo }}</td>
                                                 <td>{{ $r->descripcion }}</td>
-                                                <td>{{ $r->costo }}</td>
+                                                <td>${{ number_format($r->costo,2,'.',',') }}</td>
                                                 <td>{{ $r->tipo }}</td>
                                                 <td>{{ $r->jerarquia }}</td>
                                                 <td>

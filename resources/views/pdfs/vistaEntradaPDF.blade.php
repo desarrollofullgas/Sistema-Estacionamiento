@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ticket de Salida</title>
+    <title>Ticket de Entrada</title>
     <style>
         *{
             margin: 0;
@@ -54,7 +54,7 @@
 <body>
     <div class="head">
         <h1><b class="red">FULL</b>GAS</h1>
-        <h2>Ticket de salida del estacionamiento</h2>
+        <h2>Ticket de Entrada del estacionamiento</h2>
     </div>
     <div class="info">
         <p><b>No. de ticket: </b>{{$datos->barcode}}</p>

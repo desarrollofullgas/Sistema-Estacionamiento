@@ -141,11 +141,11 @@ public function StoreOrUpdate()
 
 
    if($this->selected_id <= 0) {        
-
+    $costFinal=str_replace(',','',$this->costo);
     $tarifa =  Tarifa::create([
         'tiempo' => $this->tiempo,            
         'descripcion' => $this->descripcion,            
-        'costo' => $this->costo,            
+        'costo' =>$costFinal, //$this->costo,            
         'tipo_id' => $this->tipo,
         'jerarquia' => $this->jerarquia
     ]);

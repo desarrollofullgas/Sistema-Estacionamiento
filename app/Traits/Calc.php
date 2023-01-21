@@ -38,12 +38,36 @@ trait Calc
     if ( in_array($m, range(0,5)) ) { // después de la 1ra hora, se dan 5 minutos de tolerancia al cliente
            //
     }
-    else if ( in_array($m, range(6,30)) ){
+    else if ( in_array($m, range(6,15)) ){
+      $fraccion = ($tarifa->costo / 4);
+    } 
+    else if ( in_array($m, range(16,30)) ){
+      $fraccion = ($tarifa->costo / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
+    }
+    else if ( in_array($m, range(31,45)) ){
+      $fraccion = ($tarifa->costo * 0.75);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
+    }
+    else if ( in_array($m, range(46,59)) ){
+          $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
+        }
+        
+    /* else if ( in_array($m, range(6,30)) ){
         $fraccion = ($tarifa->costo / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
       }
       else if ( in_array($m, range(31,59)) ){
             $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
-          }
+          }  */
+/*       switch($m){
+        case in_array($m, range(6,15)):
+          $fraccion = ($tarifa->costo / 4);
+          break;
+        case in_array($m, range(16,30)):
+          $fraccion = ($tarifa->costo / 2);
+          break;
+        case in_array($m, range(31,59)):
+          $fraccion = $tarifa->costo;
+          break;
+      } */
         }
 
         //retornamos el total a cobrar

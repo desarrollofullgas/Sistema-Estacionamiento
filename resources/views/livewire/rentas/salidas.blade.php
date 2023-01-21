@@ -30,9 +30,12 @@
                                             placeholder="Ingresa el número de ticket o Escanea el código de barras"
                                             autofocus>
                                         <div class="input-group-append ml-4">
-                                            <span wire:click="BuscarTicket()" onclick="genPDF()" script="" class="input-group-text "
+                                            <span id="exit" wire:click="BuscarTicket()"  class="input-group-text "
                                                 style="cursor:pointer; "><i class="la la-print la-lg "></i> Salida de
                                                 Vehículo</span>
+                                            {{-- <span wire:click="BuscarTicket()" onclick="genPDF()" script="" class="input-group-text "
+                                                style="cursor:pointer; "><i class="la la-print la-lg "></i> Salida de
+                                                Vehículo</span> --}}
                                         </div>
                                     </div>
                                 @endcan
@@ -43,7 +46,7 @@
 
                             <div class="col-lg-8 col-md-8 col-sm-12">
                                 <div class="col-sm-12">
-                                    <h6><b>Folio</b>: {{ $obj->id }} </h6>
+                                    <h6><b>Folio</b>: <h6 id="folio">{{ $obj->id }}</h6> </h6>
                                     <input type="hidden" id="ticketid" value="{{ $obj->id }}" />
                                 </div>
                                 <div class="col-sm-12">
@@ -80,8 +83,17 @@
     </div>
     <script>
         //no quitar, ya que este por alguna razón hace que te pueda imprimir el ticket de salida
-        function genPDF() {
+        document.getElementById("exit").addEventListener("click", function () {
+            setTimeout(() => {
+                const id= document.getElementById("folio").textContent;
+                var ruta = "{{ url('print/order') }}" + '/' + id;
+                var w = window.open(ruta, "_blank", "width=400, height=600");
+            },100);
+            
+            //console.log(id);
+        });
+        /* function genPDF() {
             console.log("Generated");
-        }
+        } */
     </script>
 </section>
