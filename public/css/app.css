@@ -11171,9 +11171,10 @@ textarea.form-control-lg {
 .btn-outline-danger {
   color: #e3342f;
   border-color: #e3342f;
+  width: 50%;
 }
 .btn-outline-danger:hover {
-  color: #000;
+  color: #ffffff;
   background-color: #e3342f;
   border-color: #e3342f;
 }

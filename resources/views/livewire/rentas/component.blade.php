@@ -101,14 +101,16 @@
                     </div>
                     <div class="modal-body">
                         <input type="text"
-                            wire:keydown.enter="$emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() )"
+                            {{-- wire:keydown.enter="$emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() )" --}}
                             id="comment" maxlength="7" class="form-control text-center" placeholder="PLACA" autofocus
                             autocomplete="off" minlength="5">
+                            
                         <div class="leyenda">
-                            <small>Presiona Enter para Agregar</small>
+                            <button type="button" onclick="Placa()" class="btn btn-outline-danger">Registrar</button>
+                            {{-- <small>Presiona Enter para Agregar</small>
                             <kbd class="kbc-button">
                                 <i class="bi bi-arrow-return-left"></i>
-                            </kbd>
+                            </kbd> --}}
                             |
                             <small>Presiona Esc para Cerrar</small>
                             <kbd class="kbc-button">
@@ -134,7 +136,18 @@
 </div>
 
 <script>
-    let textPlaca ="";
+   
+    function Placa(){
+        const textPlaca=document.getElementById("comment").value.toUpperCase();
+        const Patron=/^[A-Z]{3}\w{4}$/;
+        const PatronMoto=/^[0-9]{2}\w{4}$/;//2N3L1N
+        //console.log(textPlaca);
+        if(Patron.test(textPlaca) || PatronMoto.test(textPlaca)){
+            
+            livewire.emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() );
+        }
+        //console.log(Patron.test(textPlaca));
+    }
     function genPDF(){
         window.livewire.on('print', ticket => {
             var ruta = "{{ url('print/order') }}" + '/' + ticket;
@@ -170,7 +183,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        textPlaca ="";
+        
         $('body').on('click', '.saveRenta', function() {
             var ta = $('#tarifa').val()
             var ca = $('#cajon').val()

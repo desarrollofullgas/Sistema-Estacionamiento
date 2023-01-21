@@ -156,19 +156,19 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
    if($minutos <= 65){
      $fraccion = $tarifa->costo; 
    }
-   else {
-    $m = ($minutos % 60);
+   //else {
+    /*$m = ($minutos % 60);
     if ( in_array($m, range(0,5)) ) { // después de la 1ra hora, se dan 5 minutos de tolerancia al cliente
            //
     }
-    else if ( in_array($m, range(6,15)) ){
-      $fraccion = ($tarifa->costo / 4);
+    else if ( in_array($m, range(0,15)) ){
+      $fraccion = ($tarifa->costo*0.25);
     } 
     else if ( in_array($m, range(16,30)) ){
-      $fraccion = ($tarifa->costo / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
+      $fraccion = ($tarifa->costo / 2);   
     }
     else if ( in_array($m, range(31,45)) ){
-      $fraccion = ($tarifa->costo * 0.75);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
+      $fraccion = ($tarifa->costo * 0.75);  
     }
     else if ( in_array($m, range(46,59)) ){
           $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
@@ -179,10 +179,33 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
       else if ( in_array($m, range(31,59)) ){
             $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
           } */
-        }
+        //}
 
         //retornamos el total a cobrar
+        $m=($minutos % 60);
+        switch($m) {
+          case $m>5 && $m <=15:
+            $fraccion = ($tarifa->costo*0.25);
+            break;
+          case $m>15 && $m <=30:
+            $fraccion = ($tarifa->costo/2);
+            break;
+          case $m>30 && $m <=45:
+            $fraccion = ($tarifa->costo*0.75);
+            break;
+          case $m>45:
+            $fraccion = ($tarifa->costo);
+            //$fraccion=$m;
+            break;
+        }
+        /* if($m>5 && $m <=15){
+            $fraccion = ($tarifa->costo*0.25);
+        }
+        if($m>15 && $m <=30){
+          $fraccion = ($tarifa->costo/2);
+        } */
         $total = (($horasCompletas * $tarifa->costo) + $fraccion);
+        //$total=($fraccion);
         return $total;
 
       }
@@ -221,12 +244,13 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
        for($i=0;$i<strlen($comment);$i++){
           $txtPlaca[$i]
        } */
-      $plateNumber = "/\w/";
-      if(preg_match($plateNumber,$comment)){
+       $textPlaca=strtoupper(strval($comment));
+      $plateNumber = '/^[A-Z]{3}\w{4}$/';
+      if(preg_match($plateNumber,$textPlaca)){
         $this->emit('getin-ok','NICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
       }
       else{
-        $this->emit('getin-ok',$comment);
+        $this->emit('getin-ok',$textPlaca);
       }
        //enviamos feedback al user
        $this->barcode ='';   
