@@ -30,7 +30,7 @@
                                             placeholder="Ingresa el número de ticket o Escanea el código de barras"
                                             autofocus>
                                         <div class="input-group-append ml-4">
-                                            <span id="exit" wire:click="BuscarTicket()"  class="input-group-text "
+                                            <span id="exit" wire:click="BuscarTicket({{$obj->tipo_id}})"  class="input-group-text "
                                                 style="cursor:pointer; "><i class="la la-print la-lg "></i> Salida de
                                                 Vehículo</span>
                                             {{-- <span wire:click="BuscarTicket()" onclick="genPDF()" script="" class="input-group-text "
@@ -72,7 +72,7 @@
                                 <blockquote class="blockquote text-center">
                                     <h5><b>Cobro hasta el momento</b></h5>
                                     <h6><i class="bi bi-alarm"></i> Tiempo Transcurrido: {{ $obj->tiempo }} </h6>
-                                    <h6><i class="bi bi-currency-dollar"></i> Total: ${{ number_format($obj->total, 2) }} </h6>
+                                    <h6><i class="bi bi-currency-dollar"></i> Total: ${{$obj->total}}{{-- {{ number_format($obj->total, 2) }} --}} </h6>
                                 </blockquote>
                             </div>
                         </div>

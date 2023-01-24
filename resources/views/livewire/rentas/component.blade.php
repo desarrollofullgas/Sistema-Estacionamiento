@@ -18,7 +18,7 @@
                                         @if ($c->estatus == 'DISPONIBLE')
                                             <div id="{{ $c->tarifa_id }}" style="cursor: pointer;"
                                                 data-status="{{ $c->estatus }}" data-id="{{ $c->id }}"
-                                                onclick="openModal('{{ $c->tarifa_id }}','{{ $c->id }}')"
+                                                onclick="openModal('{{ $c->tarifa_id }}','{{ $c->id }}','{{ $c->tipo_id }}')"
                                                 class="cajondesoc ">
                                                 {{ $c->descripcion }}
                                             </div>
@@ -26,7 +26,7 @@
                                             <div id="{{ $c->tarifa_id }}" style="cursor: pointer;"
                                                 data-status="{{ $c->estatus }}" data-id="{{ $c->id }}"
                                                 data-barcode="{{ $c->barcode }}"
-                                                onclick="eventCheckOut('doCheckOut','{{ $c->barcode }}','2')"
+                                                onclick="eventCheckOut('doCheckOut','{{ $c->barcode }}','2','{{ $c->tipo_id }}')"
                                                 class="cajonoc ">
                                                 {{ $c->descripcion }}
                                             </div>
@@ -38,6 +38,7 @@
                     </div>
                     <input type="hidden" id="tarifa" />
                     <input type="hidden" id="cajon" />
+                    <input type="hidden" id="tipo" />
                 </div>
             </div>
             <div class="col-sm-12 col-md-12">
@@ -101,12 +102,12 @@
                     </div>
                     <div class="modal-body">
                         <input type="text"
-                            {{-- wire:keydown.enter="$emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() )" --}}
+                            {{-- wire:keydown.enter="$emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() )" --}} 
                             id="comment" maxlength="7" class="form-control text-center" placeholder="PLACA" autofocus
                             autocomplete="off" minlength="5">
                             
                         <div class="leyenda">
-                            <button type="button" onclick="Placa()" class="btn btn-outline-danger">Registrar</button>
+                            <button type="button" onclick="Placa()" class="btn btn-outline-danger">Registrar <i class="bi bi-box-arrow-in-right"></i></button>
                             {{-- <small>Presiona Enter para Agregar</small>
                             <kbd class="kbc-button">
                                 <i class="bi bi-arrow-return-left"></i>
@@ -142,11 +143,14 @@
         const Patron=/^[A-Z]{3}\w{4}$/;
         const PatronMoto=/^[0-9]{2}\w{4}$/;//2N3L1N
         //console.log(textPlaca);
-        if(Patron.test(textPlaca) || PatronMoto.test(textPlaca)){
+         if(Patron.test(textPlaca) || PatronMoto.test(textPlaca)){
             
-            livewire.emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() );
+            livewire.emit('doCheckIn', $('#tarifa').val(),  $('#cajon').val(), 'DISPONIBLE', $('#comment').val() ,$('#tipo').val());
         }
-        //console.log(Patron.test(textPlaca));
+        else{
+            toastr.error("INGRESE UNA PLACA VÁLIDA");
+        } 
+        console.log($('#tipo').val());
     }
     function genPDF(){
         window.livewire.on('print', ticket => {
@@ -158,9 +162,10 @@
     /* window.onload=()=>{
         startTime();
     } */
-    function openModal(tarifa, cajon) {
+    function openModal(tarifa, cajon, tipo) {
         $('#tarifa').val(tarifa)
         $('#cajon').val(cajon)
+        $('#tipo').val(tipo)
 
         $('#modalRenta').modal('show')
         //startTime();
@@ -172,9 +177,10 @@
     }
 
 
-    function eventCheckOut(eventName, barcode, actionValue) {
-        console.log(eventName, barcode, actionValue)
-        window.livewire.emit(eventName, barcode, actionValue)
+    function eventCheckOut(eventName, barcode, actionValue,tipo) {
+        
+        console.log(eventName, barcode, actionValue,tipo)
+        window.livewire.emit(eventName, barcode, actionValue,tipo)
         $('#modalRenta').modal('hide')
         $('#comment').val('')
         //genPDF();
@@ -208,6 +214,11 @@
         window.livewire.on('getin-ok', resultText => {
             $('#comment').val('')
             $('#modalRenta').modal('hide')
+        })
+        window.livewire.on('getin-error', () => {
+            $('#comment').val('')           
+            toastr.error("INGRESE UNA PLACA VÁLIDA");
+             $('#modalRenta').modal('show')
         })
 
 

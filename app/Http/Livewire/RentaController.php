@@ -112,7 +112,7 @@ protected $listeners = [
 
 
   //consulta la información de un ticket
-public function doCheckOut($barcode, $section = 2)
+public function doCheckOut($barcode, $section = 2,$tipo)
 {        
   $bcode = ($barcode == '' ? $this->barcode : $barcode);
   $obj = Renta::where('barcode',$bcode)->select('*', DB::RAW("'' as tiempo "), DB::RAW("0 as total "))->first();
@@ -126,8 +126,9 @@ public function doCheckOut($barcode, $section = 2)
     $end    = new \DateTime(Carbon::now());   
     $obj->tiempo= $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');//diferencia en horas + dif en min y seg
 
-    $obj->total = $this->calculateTotal($obj->acceso, $obj->tarifa_id);
+    $obj->total = $this->calculateTotal($tipo,$obj->acceso, $obj->tarifa_id);
     $this->obj = $obj;
+    $this->obj->tipo_id =$tipo;
 
   }else {
     $this->emit('msg-ok', 'No existe el código de barras');
@@ -138,11 +139,12 @@ public function doCheckOut($barcode, $section = 2)
 }    
 
   //método que calcula el total a cobrar
-public function calculateTotal($fromDate, $tarifaId, $toDate = '')
+public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
 {
 
  $fraccion = 0;
- $tarifa = Tarifa::where('id', $tarifaId)->first();      
+ $tarifa = Tarifa::where('id', $tarifaId)->first();
+ $tarifaInicial=Tarifa::where('id', $tarifaId)->first();       
  $start  =  Carbon::parse($fromDate);   
  $end    =  new \DateTime(Carbon::now());
  if(!$toDate =='')   $end = Carbon::parse($toDate);
@@ -184,17 +186,56 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
         //retornamos el total a cobrar
         $m=($minutos % 60);
         switch($m) {
+          case $m>=0 && $m <5:
+            $fraccion = 0;
+            break;
           case $m>5 && $m <=15:
-            $fraccion = ($tarifa->costo*0.25);
+            if($tipo=1){
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','1')->first()->costo;
+            }
+            if($tipo=2) {
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','2')->first()->costo;
+            }
+            if($tipo=3){
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','3')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo*0.25);
             break;
           case $m>15 && $m <=30:
-            $fraccion = ($tarifa->costo/2);
+            if($tipo=1){
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','1')->first()->costo;
+            }
+            if($tipo=2) {
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','2')->first()->costo;
+            }
+            if($tipo=3){
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','3')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo/2);
             break;
           case $m>30 && $m <=45:
-            $fraccion = ($tarifa->costo*0.75);
+            if($tipo=1){
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','1')->first()->costo;
+            }
+            if($tipo=2) {
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','2')->first()->costo;
+            }
+            if($tipo=3){
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','3')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo*0.75);
             break;
           case $m>45:
-            $fraccion = ($tarifa->costo);
+            if($tipo=1){
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','1')->first()->costo;
+            }
+            if($tipo=2) {
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','2')->first()->costo;
+            }
+            if($tipo=3){
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','3')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo);
             //$fraccion=$m;
             break;
         }
@@ -204,14 +245,15 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
         if($m>15 && $m <=30){
           $fraccion = ($tarifa->costo/2);
         } */
-        $total = (($horasCompletas * $tarifa->costo) + $fraccion);
-        //$total=($fraccion);
+        //$total = ($tarifaInicial->costo + ($horasCompletas * $tarifa->costo) + $fraccion);
+        $total=($fraccion." T-".$tipo);
+        $fraccion=0;
         return $total;
 
       }
 
   //este método registra la entrada de vehículos
-      public function RegistrarEntrada($tarifa_id, $cajon_id, $estatus = '', $comment ='')
+      public function RegistrarEntrada($tarifa_id, $cajon_id, $estatus = '', $comment ='',$tipo)
       {
 
         if($estatus == 'OCUPADO')
@@ -221,42 +263,61 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
        }
 
      //ponemos cajón ocupado
-       $cajon = Cajon::where('id', $cajon_id)->first();
+      /*  $cajon = Cajon::where('id', $cajon_id)->first();
        $cajon->estatus = 'OCUPADO';
-       $cajon->save();          
+       $cajon->save();  */         
 
 
      //registrar entrada
-       $renta = Renta::create([
+      /*  $renta = Renta::create([
         'acceso' => Carbon::now(),
         'user_id' => auth()->user()->id,
         'tarifa_id' => $tarifa_id,
         'cajon_id' => $cajon_id,
         'descripcion' =>$comment
-      ]);
+      ]); */
 
 
-       //generamos el código de barras a 7 dígitos para imprimir el ticket con el estándar cod39
+       /* //generamos el código de barras a 7 dígitos para imprimir el ticket con el estándar cod39
        $renta->barcode = sprintf('%07d', $renta->id); 
-       $renta->save();
+       $renta->save(); */
       /*  $txtOK=false;
        $txtPlaca=explode('',$comment);
        for($i=0;$i<strlen($comment);$i++){
           $txtPlaca[$i]
        } */
-       $textPlaca=strtoupper(strval($comment));
-      $plateNumber = '/^[A-Z]{3}\w{4}$/';
-      if(preg_match($plateNumber,$textPlaca)){
-        $this->emit('getin-ok','NICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
+      $textPlaca=strtoupper(strval($comment));
+      $PatronAuto = '/^[A-Z]{3}\w{4}$/';
+      $PatronMoto='/^[0-9]{2}\w{4}$/';
+      if(preg_match($PatronAuto,$textPlaca) || preg_match($PatronMoto,$textPlaca)){
+        $cajon = Cajon::where('id', $cajon_id)->first();
+        $cajon->estatus = 'OCUPADO';
+        $cajon->save();
+        //registrar entrada
+        $renta = Renta::create([
+          'acceso' => Carbon::now(),
+          'user_id' => auth()->user()->id,
+          'tarifa_id' => $tarifa_id,
+          'cajon_id' => $cajon_id,
+          'descripcion' =>$comment
+        ]);
+        //generamos el código de barras a 7 dígitos para imprimir el ticket con el estándar cod39
+        $renta->barcode = sprintf('%07d', $renta->id); 
+        $renta->save();      
+        $this->barcode ='';   
+        $this->descripcion ='';
+        $this->emit('getin-ok','Entrada Registrada en Sistema');         
+        $this->emit('print', $renta->id);
+
       }
       else{
-        $this->emit('getin-ok',$textPlaca);
+        $this->emit('getin-error');
       }
        //enviamos feedback al user
-       $this->barcode ='';   
+       /* $this->barcode ='';   
        $this->descripcion ='';          
       //$this->emit('getin-ok','Entrada Registrada en Sistema');
-       $this->emit('print', $renta->id);
+       $this->emit('print', $renta->id); */
 
 
      }
@@ -273,7 +334,7 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
 
 
   //método para salida de vehículos
-     public function BuscarTicket()
+     public function BuscarTicket($tipo)
      {      
 
       $nuevoTotal = 0;
@@ -316,7 +377,7 @@ public function calculateTotal($fromDate, $tarifaId, $toDate = '')
      $tiempo = $this->CalcularTiempo($ticket->acceso);
 
    //obtenemos el total
-     $nuevoTotal =  $this->calculateTotal($ticket->acceso, $ticket->tarifa_id);
+     $nuevoTotal =  $this->calculateTotal($tipo,$ticket->acceso, $ticket->tarifa_id);
 
 
    //guardamos la salida
