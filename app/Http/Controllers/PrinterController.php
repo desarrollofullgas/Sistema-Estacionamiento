@@ -17,6 +17,7 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Models\Caja;
+use PDO;
 
 class PrinterController extends Controller
 {
@@ -241,8 +242,11 @@ class PrinterController extends Controller
 	function PDF($id){
 		$ticket = Renta::where('id', $id)->select('*')->first();
 		$tiempo = $this->CalcularTiempo($ticket->acceso);
-		$ticket->hours = $tiempo;  
-		$pdf = PDF::setPaper('A8');
+		$ticket->hours = $tiempo;
+		$tipo =Tarifa::where('id',$ticket->tarifa_id)->first()->tipo_id;
+		$ticket->tarifa=Tarifa::where('tipo_id',$tipo)->select('costo','tiempo')->get();
+		//$pdf = PDF::setPaper('A8');//a8
+		$pdf=PDF::setPaper(array(0,0,147.40,309.76));
 		return $pdf->loadView('pdfs.vistaPDF' , ['datos' => $ticket])->stream();//download('TICKET'.$ticket->barcode.'.pdf');
 		
 	}

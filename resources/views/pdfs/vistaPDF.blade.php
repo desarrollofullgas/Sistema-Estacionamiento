@@ -49,6 +49,16 @@
         .info p{
             padding-top: 1rem;
         }
+        .tarifas{
+            padding: 1rem;
+            text-align: center;
+        }
+        ul{
+            list-style: none;
+        }
+        .total{
+            font-size: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -58,11 +68,20 @@
     </div>
     <div class="info">
         <p><b>No. de ticket: </b>{{$datos->barcode}}</p>
-        <p><b>Acceso: </b>{{$datos->acceso}}</p>
-        <p><b>Tiempo Transcurrido: </b>{{ $datos->hours }}</p>
-        <p><b>Total: $</b>{{ number_format($datos->total, 2) }}</p>
         <p><b>Placas del vehículo: </b>{{$datos->descripcion}}</p>
+        <p><b>Acceso: </b>{{$datos->acceso}}</p>
+        <p><b>Tarifas que aplican para este vehículo:</b></p>
+        <div class="tarifas">
+            <ul>
+                @foreach ($datos->tarifa as $item)
+                <li>{{$item->tiempo.": $".$item->costo}}</li>
+                @endforeach
+            </ul>
+        </div>
+        <hr>
+        
+        <p><b>Tiempo Transcurrido: </b>{{ $datos->hours }}</p>
+        <p class="total"><b>Total: $</b>{{ number_format($datos->total, 2) }}</p>
     </div>
-    
 </body>
 </html>

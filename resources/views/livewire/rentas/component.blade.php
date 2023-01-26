@@ -7,14 +7,14 @@
             <div class="col-sm-12 col-md-12">
                 <div class="card m-0-ps">
                     <div class="card-header">
-                        <div class="card-title">Rentas. <span class="text-bold" style="color: #72f14c">(Desocupado</span>
+                        <div class="card-title">Rentas. <span class="text-bold" style="color: #56b739">(Desocupado</span>
                             <span class="text-bold text-danger">Ocupado)</span></div>
                     </div>
                     <div class="card-body scroll-div">
                         <div class="row">
                             @foreach ($cajones as $c)
                                 @can('rentas_entradas_salidas')
-                                    <div class="d-inline flex col-sm-12 col-md-3 mt-2">
+                                    <div class="d-inline flex {{-- col-sm-12 col-md-3 --}} mt-2">
                                         @if ($c->estatus == 'DISPONIBLE')
                                             <div id="{{ $c->tarifa_id }}" style="cursor: pointer;"
                                                 data-status="{{ $c->estatus }}" data-id="{{ $c->id }}"

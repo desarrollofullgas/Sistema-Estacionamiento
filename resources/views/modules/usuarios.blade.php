@@ -5,7 +5,7 @@
     </x-slot>
     <div class="content">
         <div class="row">
-            <div class="col-sm-12 col-md-10">
+            <div class="col-sm-12 col-md-10 width--70-100">
                 <div class="card m-0 ps">
                     <div class="card-header">
                         <div class="card-title">Usuarios del sistema.</div>

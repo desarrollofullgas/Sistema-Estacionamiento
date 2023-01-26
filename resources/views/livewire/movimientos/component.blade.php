@@ -5,7 +5,7 @@
     </x-slot>
     @if ($action == 1)
         <div class="row">
-            <div class="col-sm-12 col-md-10">
+            <div class="col-sm-12 col-md-10 width--70-100">
                 <div class="card m-0 ps">
                     <div class="card-header">
                         <div class="card-title">Movimientos de Caja.</div>
@@ -54,7 +54,7 @@
                     <div class="card-header">
                         <div class="card-title">Menú.</div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body flex--centrado-horizontal">
                         @include('common.search', ['create' => 'movimientos_create'])
                     </div>
                 </div>

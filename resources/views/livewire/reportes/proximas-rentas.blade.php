@@ -4,12 +4,12 @@
         {{-- topmenu --}}
     </x-slot>
     <div class="row">
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-12 col-md-12 width--full">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header justify--around">
                     <div class="card-title">Rentas proximas.</div>
                     @can('reporte_rentasavencer_exportar')
-                        <div class="col-sm-12 col-md-10  text-right">
+                        <div class=" col-md-10  text-right">
                             <button class="btn btn-dark btn-sm" id="pdfoutrent">Exportar a PDF</button>
                         </div>
                         @endcan

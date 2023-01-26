@@ -6326,7 +6326,8 @@ table {
     font-weight: bold;
     font-size: 1rem;
     display: inline-block;
-    min-width: 1rem;
+    /* min-width: 1rem; */
+   
 }
 
 .card-header .card-title {
@@ -6504,12 +6505,13 @@ span.title {
 
 
 .cajonoc {
-    color: white;
+    /* color: white;
+    font-weight: bold;
     width: 100px;
     height: 100px;
-    border-radius: 50%;
+    border-radius: 50%; */
     background-color: red;
-    position: relative;
+    /* position: relative;
     margin: auto;
     left: 0;
     right: 0;
@@ -6517,15 +6519,19 @@ span.title {
     bottom: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
+}
+.cajondesoc{
+    background-color: #56b739;
 }
 
-.cajondesoc {
+.cajondesoc,.cajonoc {
     color: white;
+    font-weight: bold;
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #72f14c;
+    /* background-color: #56b739; */
     position: relative;
     margin: auto;
     left: 0;
@@ -6595,7 +6601,7 @@ button.permiso:hover {
     border: none;
 }
 .scroll-div{
-    width: 550px;
+    /* width: 550px; */
     height: 350px;
     overflow: hidden;
     overflow-y: scroll;

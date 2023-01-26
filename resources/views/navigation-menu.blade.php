@@ -1,13 +1,13 @@
    <nav class="navbar navbar-expand-md navbar-light border-bottom sticky-top">
-    <div class="container">
+    <div class="container" id="nav__container">
        
         <!-- Logo -->
         <a class="navbar-brand me-4" href="/">
             <img src="{{asset('img/logotype/FullGasLogo.png')}}" class="logotypenav" alt="">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon "></span>
-        </button>
+        </button> --}}
        
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -68,8 +68,11 @@
                     <x-jet-dropdown id="settingsDropdown">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <img class="rounded-circle" width="32" height="32" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                            
+                                @if (Auth::user()->profile_photo_path)
+                                <img class="h-8 w-8 rounded-full object-cover" src="/storage/{{Auth::user()->profile_photo_path }}" alt="{{ Auth::user()->name }}" />
+                                @else
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" /> 
+                            @endif                            
                                <span class="usernamenav"> {{ Auth::user()->name }}</span>
 
                                 <svg class="btnnavcollapse ms-1" width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

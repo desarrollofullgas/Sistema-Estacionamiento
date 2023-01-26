@@ -6,7 +6,7 @@
         <div class="row">
             @if ($action == 1)
 
-                <div class="col-sm-12 col-md-10">
+                <div class="col-sm-12 col-md-10 width--70-100">
                     <div class="card m-0 ps">
                         <div class="card-header">
                             <div class="card-title">Tipos de Vehículos.</div>
@@ -51,7 +51,7 @@
             <div class="card-header">
                 <div class="card-title">Menú.</div>
             </div>
-            <div class="card-body">
+            <div class="card- flex--centrado-horizontal">
                 @include('common.search', ['create' => 'tipos_create'])
             </div>
         </div>

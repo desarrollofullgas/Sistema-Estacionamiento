@@ -4,12 +4,12 @@
         {{-- topmenu --}}
     </x-slot>
     <div class="row">
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-12 col-md-12 width--full">
             <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Reporte de ventas por fecha.</div>
+                <div class="card-header justify--around">
+                    <div class="card-title ">Reporte de ventas por fecha.</div>
                     @can('reporte_ventasporfecha_exportar')
-                        <div class="col-sm-12 col-md-9  text-right ">
+                        <div class=" col-md-9  text-right ">
                             <button class="btn btn-dark btn-sm" id="pdfoutfech">Exportar a PDF</button>
                         </div>
                         @endcan

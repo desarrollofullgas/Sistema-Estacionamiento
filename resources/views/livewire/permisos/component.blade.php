@@ -4,7 +4,7 @@
     </x-slot>
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="card">
+            <div class="card detras__1">
                 <div class="card-header">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item ">
