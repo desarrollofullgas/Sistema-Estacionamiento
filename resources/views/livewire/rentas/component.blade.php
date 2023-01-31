@@ -258,8 +258,10 @@
     })
     function registrarTicket(){
         const name = document.getElementById("nombre").value;
-        url="print/order/Ticket/"+name;
-        window.open(url, "_blank", "width=400, height=600");
-        console.log(name);
+        setTimeout(()=>{
+            url="print/order/Ticket/"+name;
+            window.open(url, "_blank", "width=400, height=600");
+        },100);       
+        //console.log(name);
     }
 </script>

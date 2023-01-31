@@ -225,7 +225,7 @@
                     <div class="row justify-content-between">
                         <div class="col-md-4 col-lg-4 col-sm-12">
                             @if ($tiempo > 0)
-                                <button  {{-- wire:click.prevent="RegistrarTicketRenta()" --}} 
+                                <button  wire:click.prevent="RegistrarTicketRenta()" 
                                     class="btn btn-dark mt-4" onclick="registrarTicket()">Registrar Entrada</button>
                             @endif
                         </div>

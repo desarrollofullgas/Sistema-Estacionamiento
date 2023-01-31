@@ -17,6 +17,7 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Models\Caja;
+use App\Models\ClienteVehiculo;
 use PDO;
 
 class PrinterController extends Controller
@@ -472,17 +473,24 @@ class PrinterController extends Controller
 		//return $info;
 	}
 	function ticketRenta($name){
-		$userID= User::select('id')->where('name',$name)->get();
+		$userID= User::select('id')->where('name',$name)->first()->id;
+		$vehiculo= ClienteVehiculo::select('vehiculo_id')->where('user_id',$userID)->first()->vehiculo_id;
 		$info = Renta::leftjoin('vehiculos as v','v.id','rentas.vehiculo_id')
 		->leftjoin('cliente_vehiculos as cv','cv.vehiculo_id', 'v.id')
 		->leftjoin('users as u','u.id','cv.user_id')        			  
-		->where('rentas.vehiculo_id', '>', 0)
+		->where('rentas.vehiculo_id',$vehiculo)
 		->where('rentas.estatus','ABIERTO')
-//->where('u.name',$name)
 		->select('rentas.*','u.name as cliente','v.placa','v.modelo','v.marca')
 		->orderBy('u.id','desc')
-		->paginate();
-		return $userID;
+		->first();
+		$start = Carbon::parse($info->acceso);
+		$end = Carbon::parse($info->salida);
+		$days = $start->diffInDays($end);
+		$info->meses= $start->diffInMonths($end);
+		$info->dias=$days;
+		$pdf = PDF::setPaper(array(0, 0, 147.40, 260));
+		return $pdf->loadView('pdfs.vistaPDFticketRenta', ['datos' => $info])->stream();	
+		//return $info;
 	}
 	/* function ExReport($data){
 		return $pdf=PDF::loadView('pdfs.vistaReportTablePDF',['datos' =>$data])->stream();

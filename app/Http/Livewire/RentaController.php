@@ -605,13 +605,19 @@ public function RegistrarTicketRenta()
         'vehiculo_id' => $vehiculo->id
       ]);
     }
-
+    //calculamos el total entes de guardar la renta
+    $tarifa=Tarifa::select('costo')->where('tipo_id',$this->tipo)->where('tiempo','Mes')->first()->costo;
+    /* $inicio=Carbon::parse($this->fecha_ini);
+    $fin=Carbon::parse($this->fecha_fin);
+    $months=$inicio->diffInMonths($fin); */
+    $total=$tarifa* $this->tiempo;
+    //$this->total=$total;
   //paso 4 registrar el ticket en rentas      
     $renta = Renta::create([
       'acceso' => Carbon::parse($this->fecha_ini),
       'salida' => Carbon::parse($this->fecha_fin),
       'user_id' => auth()->user()->id,
-      'tarifa_id' => $this->tarifaSelected,            
+      //'tarifa_id' => $this->tarifaSelected,            
       'placa' =>$this->placa,
       'modelo' =>$this->modelo,
       'marca' =>$this->marca,
@@ -619,7 +625,7 @@ public function RegistrarTicketRenta()
       'descripcion' =>$this->nota,
       'direccion' =>$this->direccion,
       'vehiculo_id' => ($this->clienteSelected == null ? $vehiculo->id : $this->vehiculo_id), //AGREGAR
-      'total' =>$this->total,
+      'total' =>$total,
       'hours' =>$this->tiempo,
       'concepto_multa' =>$this->concepto_multa,
       'tarifa_id' =>$this->tipo
@@ -661,11 +667,14 @@ public function getSalida()
   }
   else {
     $this->fecha_fin = Carbon::now()->addMonths($this->tiempo)->format('d-m-Y');
-    $tarifa = Tarifa::where('tiempo','Mes')->select('costo')->first();    
+    $tarifa = Tarifa::where('tiempo','Mes')->where('tipo_id',$this->tipo)->select('costo')->first();    
     
-    if($tarifa->count()) {
-      $this->total = $this->tiempo * $tarifa->costo;      
+    if ($this->tipo !=null && $this->tipo > 0){
+      if($tarifa->count()) {
+        $this->total = $this->tiempo * $tarifa->costo;      
+      }
     }
+    
     
   }
 

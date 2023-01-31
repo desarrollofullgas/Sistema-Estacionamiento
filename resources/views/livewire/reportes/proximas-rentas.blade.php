@@ -82,10 +82,10 @@
                                         <td class="text-center">
                                             @can('reporte_rentasavencer_salidas')
                                                 <a href="javascript:void(0);"
-                                                    wire:click.prevent="$emit('checkOutTicketPension', {{ $r->id }})"
+                                                     wire:click.prevent="$emit('checkOutTicketPension', {{ $r->id }})"
                                                     title="Cerrar Ticket"
-                                                    class="rounded-circle btn btn-outline-dark btn-sm"><i
-                                                        class="bi bi-check2-circle"></i></a>
+                                                    class="rounded-circle btn btn-outline-dark btn-sm" onclick="PDFCommingSoon()"><i
+                                                        class="bi bi-check2-circle" onclick="PDFCommingSoon()"></i></a>
                                             @endcan
                                         </td>
                                     </tr>
