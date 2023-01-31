@@ -10,7 +10,7 @@
                     <div class="card-title">Reporte de ventas diarias.</div>
                     @can('reporte_ventasdiarias_exportar')
                         <div class=" col-md-9  text-right">
-                            <button class="btn btn-dark btn-sm" id="pdfout">Exportar a PDF</button>
+                            <button class="btn btn-dark btn-sm" id="pdfout" onclick="PDFDaily()">Exportar a PDF</button>
                         </div>
                     @endcan
                 </div>
@@ -82,7 +82,7 @@
                                         </td>
                                         <td>
                                             <a href="javascript:void(0);"
-                                                onclick='var w = window.open("print/order/{{ $r->id }}", "_blank", "width=100, height=100"); w.close()'
+                                                onclick='var w = window.open("print/order/{{ $r->id }}", "_blank", "width=400, height=600"); /* w.close() */'
                                                 data-toggle="tooltip" data-placement="top" title="Reimprimir Ticket">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -112,7 +112,7 @@
             </div>
         </div>
     </div>
-    <script>
+    {{-- <script>
         //ventas diarias
         import {jsPDF} from "jspdf";
         var vdiarias = document.getElementById('vdiarias'),
@@ -154,4 +154,9 @@
                 });
             }
         };
+    </script> --}}
+    <script>
+        function PDFDaily(){
+            window.open("print/reports/daily", "_blank", "width=400, height=600");
+        }
     </script>

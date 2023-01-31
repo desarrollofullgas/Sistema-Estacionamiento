@@ -76,13 +76,17 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(fun
 	Route::get('print/graphic/month', [PrinterController::class, 'chartMonth']);
 	Route::get('print/graphic/BalanceAnual', [PrinterController::class, 'chartBalanceAnual']);
 	Route::get('printIn/order/{id}', [PrinterController::class, 'InPDF']);
-	Route::get('print/order/{id}', [PrinterController::class, 'PDF']); 
+	Route::get('print/order/{id}', [PrinterController::class, 'PDF']);
+	Route::get('print/order/Ticket/{name}', [PrinterController::class, 'ticketRenta']);  
 	Route::get('print/corte', (function (Request $request){	
 		//PrinterController::cortePDF($data);
 		$pdf=PDF::loadView('pdfs.vistaCortePDF',['data' => $request]);
 		return $pdf->stream();
 		//return $data['v'];
 	}));
+	Route::get('print/reports/daily', [PrinterController::class, 'ReportDaily']);
+	Route::get('print/reports/comming', [PrinterController::class, 'ReportComming']);
+	Route::get('print/reports/{date}', [PrinterController::class, 'ReportDates']);
 
 //Route::get('print/order/{id}', [PrinterController::class, 'TicketVisita'])->name('print/order');
 Route::get('ticket/pension/{id}', [PrinterController::class, 'TicketPension'])->name('#');

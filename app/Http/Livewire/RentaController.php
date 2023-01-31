@@ -573,7 +573,7 @@ public function RegistrarTicketRenta()
     }
     else {
       //si email viene vacío, generamos uno
-      if(empty($this->email)) $this->email = str_replace(' ','_', $this->nombre) .'_@estacionamientofg.com';
+      if(empty($this->email)) $this->email = str_replace(' ','_', $this->name) .'_@estacionamientofg.com';
       $cliente = User::create([
         'name' => $this->name,
         'telefono' => $this->telefono,
@@ -621,7 +621,8 @@ public function RegistrarTicketRenta()
       'vehiculo_id' => ($this->clienteSelected == null ? $vehiculo->id : $this->vehiculo_id), //AGREGAR
       'total' =>$this->total,
       'hours' =>$this->tiempo,
-      'concepto_multa' =>$this->concepto_multa
+      'concepto_multa' =>$this->concepto_multa,
+      'tarifa_id' =>$this->tipo
     ]);
 
     //generamos el barcode

@@ -10,7 +10,7 @@
                     <div class="card-title ">Reporte de ventas por fecha.</div>
                     @can('reporte_ventasporfecha_exportar')
                         <div class=" col-md-9  text-right ">
-                            <button class="btn btn-dark btn-sm" id="pdfoutfech">Exportar a PDF</button>
+                            <button class="btn btn-dark btn-sm" id="pdfoutfech" onclick="PDFDates()">Exportar a PDF</button>
                         </div>
                         @endcan
                 </div>
@@ -19,13 +19,13 @@
                         <div class="col-sm-12 col-md-2">Fecha Inicial
                             <div class="form-group">
                                 <input wire:model.lazy="fecha_ini" class="form-control flatpickr flatpickr-input active"
-                                    type="text" placeholder="Haz click">
+                                    type="text" placeholder="Haz click" id="dateIn">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-2 text-left">
                             <div class="form-group">Fecha final
                                 <input wire:model.lazy="fecha_fin" class="form-control flatpickr flatpickr-input active"
-                                    type="text" placeholder="Haz click">
+                                    type="text" placeholder="Haz click" id="dateEnd">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-2 text-left">
@@ -100,7 +100,7 @@
         </div>
     </div>
 </div>
-<script>
+{{-- <script>
     //ventas diarias
 var vfechas = document.getElementById('vfechas'),
                     pdfout = document.getElementById('pdfoutfech');
@@ -138,4 +138,15 @@ var vfechas = document.getElementById('vfechas'),
             }
         };
 
+</script>--}}
+<script>
+    function PDFDates(){
+        const dateIn=document.getElementById("dateIn").value;
+        const dateEnd=document.getElementById("dateEnd").value;
+        
+        const date = dateIn + "+" + dateEnd;
+        const url="print/reports/"+date;
+        console.log(date);
+        window.open(url, "_blank", "width=400, height=600");
+    }
 </script>

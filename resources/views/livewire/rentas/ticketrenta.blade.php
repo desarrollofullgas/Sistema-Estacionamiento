@@ -44,7 +44,7 @@
                                     <div class="input-group-text"><i class="bi bi-person-lines-fill"></i></div>
                                 </div>
                                 <input type="text" wire:model.lazy="name" class="form-control" maxlength="30"
-                                    placeholder="ej: Nombre Apellido">
+                                    placeholder="ej: Nombre Apellido" id="nombre">
                             </div>
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -123,14 +123,20 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6">
-                            <h7>Descripción</h7>
-                            <div class="input-group">
+                            <h7>Tipo de vehículo</h7>
+                            <select wire:model="tipo" name="tipo" id="tipo" class="form-control text-center">
+                                <option value="0">Elegir</option>
+                                <option value="1">Automovil</option>
+                                <option value="2">Motocicleta</option>
+                                <option value="3">Camioneta</option>
+                            </select>
+                            {{-- <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="bi bi-question-circle-fill"></i></div>
                                 </div>
                                 <input type="text" wire:model.lazy="nota" class="form-control" maxlength="30"
                                     placeholder="ej: BORA">
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <h7>Placa *</h7>
@@ -138,7 +144,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="bi bi-credit-card-2-front-fill"></i></div>
                                 </div>
-                                <input type="text" wire:model.lazy="placa" class="form-control" maxlength="30"
+                                <input type="text" wire:model.lazy="placa" class="form-control" maxlength="7"
                                     placeholder="ej: F5T789">
                             </div>
                             @error('placa')
@@ -219,8 +225,8 @@
                     <div class="row justify-content-between">
                         <div class="col-md-4 col-lg-4 col-sm-12">
                             @if ($tiempo > 0)
-                                <button wire:click.prevent="RegistrarTicketRenta()"
-                                    class="btn btn-dark mt-4">Registrar Entrada</button>
+                                <button  {{-- wire:click.prevent="RegistrarTicketRenta()" --}} 
+                                    class="btn btn-dark mt-4" onclick="registrarTicket()">Registrar Entrada</button>
                             @endif
                         </div>
                         <div class="col-md-4 col-lg-4 col-sm-12 text-right">
@@ -241,3 +247,6 @@
     </div>
     </div>
 </section>
+<script>
+
+</script>

@@ -10,7 +10,7 @@
                     <div class="card-title">Rentas proximas.</div>
                     @can('reporte_rentasavencer_exportar')
                         <div class=" col-md-10  text-right">
-                            <button class="btn btn-dark btn-sm" id="pdfoutrent">Exportar a PDF</button>
+                            <button class="btn btn-dark btn-sm" id="pdfoutrent" onclick="PDFCommingSoon()">Exportar a PDF</button>
                         </div>
                         @endcan
                 </div>
@@ -51,10 +51,10 @@
                                         <td class="text-center">
                                             {{ \Carbon\Carbon::parse($r->acceso)->format('d-m-Y h:i:s') }}</td>
                                         <td class="text-left">
-                                            <h7>Años:{{ $r->restanteyears }}</h7><br>
-                                            <h7>Meses:{{ $r->restantemeses }}</h7><br>
-                                            <h7>Días:{{ $r->restantedias }}</h7><br>
-                                            <h7>Horas:{{ $r->restantehoras }}</h7><br>
+                                           {{--  <h7>Años:{{ $r->restanteyears }}</h7><br>
+                                            <h7>Meses:{{ $r->restantemeses }}</h7><br> --}}
+                                            <h7>{{ $r->restantedias }} días</h7><br>
+                                            {{-- <h7>Horas:{{ $r->restantehoras }}</h7><br> --}}
 
                                         </td>
                                         <td class="text-center">
@@ -107,7 +107,7 @@
         </div>
     </div>
 </div>
-<script>
+{{-- <script>
     //ventas diarias
 var rentasprox = document.getElementById('rentasprox'),
                     pdfout = document.getElementById('pdfoutrent');
@@ -145,4 +145,9 @@ var rentasprox = document.getElementById('rentasprox'),
             }
         };
 
+</script> --}}
+<script>
+    function PDFCommingSoon(){
+        window.open("print/reports/comming", "_blank", "width=400, height=600");
+    }
 </script>

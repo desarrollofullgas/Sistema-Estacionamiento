@@ -21,7 +21,7 @@ use PDO;
 
 class PrinterController extends Controller
 {
-    // public function TicketVista_Original(Request $request)
+	// public function TicketVista_Original(Request $request)
 	// {
 	// 	$folio = str_pad($request->id,13,"0", STR_PAD_LEFT);
 	// 	$nombreImpresora = "TM20";
@@ -52,7 +52,7 @@ class PrinterController extends Controller
 	// 	$impresora->text("Tarifa por hora: $". number_format($tarifa->costo,2) ." \n");				
 	// 	if(!empty($renta->descripcion)) $impresora->text('Desc: '. $renta->descripcion ." \n");				
 	// 	$impresora->text("=============================================\n");	
-		
+
 	// 	$impresora->setJustification(Printer::JUSTIFY_CENTER);
 	// 	$impresora->text("Por favor conservar el ticket hasta el pago, en caso de extravio se pagará una multa de $50\n\n");
 
@@ -119,7 +119,7 @@ class PrinterController extends Controller
 	// 	$impresora->text('Placa:'. $renta->placa .' Marca:'. $renta->marca .' Color:'. $renta->color ." \n");
 	// 	$impresora->text("=============================================\n");		
 
-		
+
 
 	// 	$impresora->setJustification(Printer::JUSTIFY_CENTER);
 	// 	$impresora->text("Por favor conservar el ticket hasta el pago, en caso de extravio se pagará una multa de $50\n\n");
@@ -144,11 +144,11 @@ class PrinterController extends Controller
 
 
 
-	
+
 	// public function TicketVisita(Request $request)
 	// {
-		
-		
+
+
 	// 	$folio = str_pad($request->id,7,"0", STR_PAD_LEFT); //formato folio con ceros a la izquierda
 	// 	$nombreImpresora = "EQUAL"; //nombre impresora
 	// 	$connector = new WindowsPrintConnector($nombreImpresora); //creamos instancia de conexión a la impresora
@@ -199,12 +199,12 @@ class PrinterController extends Controller
 
 	// public function TicketVista2(Request $request)
 	// {
-		
-		
+
+
 
 	// 	$connector = new WindowsPrintConnector('TM20');
 	// 	$printer = new Printer($connector);
-		
+
 	// 	/* Barcodes */
 	// 	/*
 	// 	$barcodes = array(
@@ -232,48 +232,50 @@ class PrinterController extends Controller
 		exit;
 	pdf->Cell(50, 25, 'Hello World!'.$id.'--------------------------------');
 		$fpdf
-	}  *///alt-shif-a
+	}  */ //alt-shif-a
 
-	function InPDF($id){
-		$ticket = Renta::where('id', $id)->select('*')->first();  
+	function InPDF($id)
+	{
+		$ticket = Renta::where('id', $id)->select('*')->first();
 		$pdf = PDF::setPaper('A8');
-		return $pdf->loadView('pdfs.vistaEntradaPDF' , ['datos' => $ticket])->stream();	
+		return $pdf->loadView('pdfs.vistaEntradaPDF', ['datos' => $ticket])->stream();
 	}
-	function PDF($id){
+	function PDF($id)
+	{
 		$ticket = Renta::where('id', $id)->select('*')->first();
 		$tiempo = $this->CalcularTiempo($ticket->acceso);
 		$ticket->hours = $tiempo;
-		$tipo =Tarifa::where('id',$ticket->tarifa_id)->first()->tipo_id;
-		$ticket->tarifa=Tarifa::where('tipo_id',$tipo)->select('costo','tiempo')->get();
+		$tipo = Tarifa::where('id', $ticket->tarifa_id)->first()->tipo_id;
+		$ticket->tarifa = Tarifa::where('tipo_id', $tipo)->select('costo', 'tiempo')->get();
 		//$pdf = PDF::setPaper('A8');//a8
-		$pdf=PDF::setPaper(array(0,0,147.40,309.76));
-		return $pdf->loadView('pdfs.vistaPDF' , ['datos' => $ticket])->stream();//download('TICKET'.$ticket->barcode.'.pdf');
-		
+		$pdf = PDF::setPaper(array(0, 0, 147.40, 309.76));
+		return $pdf->loadView('pdfs.vistaPDF', ['datos' => $ticket])->stream(); //download('TICKET'.$ticket->barcode.'.pdf');
+
 	}
 	public function CalcularTiempo($fechaEntrada)
 	{
-	  $start  =  Carbon::parse($fechaEntrada);
-	  $end    = new \DateTime(Carbon::now());     
-	  $tiempo = $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');  
-	  return $tiempo;
+		$start  =  Carbon::parse($fechaEntrada);
+		$end    = new \DateTime(Carbon::now());
+		$tiempo = $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');
+		return $tiempo;
 	}
-	function chartWeek(){
+	function chartWeek()
+	{
 		$currentYear =  date("Y");
 		//ventas semana actual
-		  $start = date('Y-m-d', strtotime('monday this week')); //obtenemos el 1er dia de la semana actual
-		  $finish = date('Y-m-d', strtotime('sunday this week'));  //obtenemos el ultimo dia
-				
-		  $d1 = strtotime($start); //convertir fecha inicial en formato unix
-		  $d2 = strtotime($finish); 
-		  $array = array(); 
-	  
-		  for ($currentDate = $d1; $currentDate <= $d2; $currentDate += (86400)) 
-		  { 
+		$start = date('Y-m-d', strtotime('monday this week')); //obtenemos el 1er dia de la semana actual
+		$finish = date('Y-m-d', strtotime('sunday this week'));  //obtenemos el ultimo dia
+
+		$d1 = strtotime($start); //convertir fecha inicial en formato unix
+		$d2 = strtotime($finish);
+		$array = array();
+
+		for ($currentDate = $d1; $currentDate <= $d2; $currentDate += (86400)) {
 			$dia = date('Y-m-d', $currentDate); //convertimos el dia unix a formato ingles
-			$array[] = $dia;            
-		  } 
-	  
-		  $sql ="SELECT c.fecha, IFNULL(c.total,0) as total FROM (
+			$array[] = $dia;
+		}
+
+		$sql = "SELECT c.fecha, IFNULL(c.total,0) as total FROM (
 		  SELECT '$array[0]' AS fecha 
 		  UNION 
 		  SELECT '$array[1]' AS fecha 
@@ -292,13 +294,13 @@ class PrinterController extends Controller
 		SELECT SUM(total)AS total, DATE(created_At)AS fecha FROM rentas WHERE created_at BETWEEN '$start' AND '$finish' AND estatus ='CERRADO'
 		GROUP BY DATE(created_At)
 	  )c  ON d.fecha = c.fecha";
-	  $weekSales = DB::select(DB::raw($sql));
+		$weekSales = DB::select(DB::raw($sql));
 
-	  $url="https://quickchart.io/chart?c={ 
+		$url = "https://quickchart.io/chart?c={ 
 		type: 'pie', 
 		data: { 
 				datasets: [ 
-					{ data: [".$weekSales[0]->total.", ".$weekSales[1]->total.", ".$weekSales[2]->total.",".$weekSales[3]->total.",".$weekSales[4]->total.", ".$weekSales[5]->total.", ".$weekSales[6]->total."],
+					{ data: [" . $weekSales[0]->total . ", " . $weekSales[1]->total . ", " . $weekSales[2]->total . "," . $weekSales[3]->total . "," . $weekSales[4]->total . ", " . $weekSales[5]->total . ", " . $weekSales[6]->total . "],
 		backgroundColor: [
 		'rgb(253, 159, 179)',
 		'rgb(255, 159, 64)',
@@ -311,10 +313,11 @@ class PrinterController extends Controller
 	  labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes','Sábado','Domingo'], 
 	},
  }";
-	  return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
-	  //return view('pdfs.vistaChartPDF',['chart' =>$chartVentaSemanal]);
+		return $pdf = PDF::loadView('pdfs.vistaChartPDF', ['chart' => $url])->stream();
+		//return view('pdfs.vistaChartPDF',['chart' =>$chartVentaSemanal]);
 	}
-	function chartMonth(){
+	function chartMonth()
+	{
 		$currentYear =  date("Y");
 		$salesByMonth = DB::select(DB::raw("
 		SELECT m.MONTH AS MES, IFNULL(c.ventas,0)AS VENTAS, IFNULL(c.rentas,0) as TRANSACCIONES  FROM(
@@ -335,47 +338,48 @@ class PrinterController extends Controller
 		ORDER BY MONTH(acceso)
 		)  c ON m.MONTH =c.MONTH
 		"));
-		
-		$url="https://quickchart.io/chart?c={ 
+
+		$url = "https://quickchart.io/chart?c={ 
 			type: 'line', 
 			data: { 
 				labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiember', 'Octubre', 'Noviembre', 'Diciembre'], 
 				datasets: [ { 
 					backgroundColor: 'rgba(0,143,251, 0.5)', 
 					borderColor: 'rgb(0,143,251)', 
-					data: [".$salesByMonth[0]->VENTAS.", ".$salesByMonth[1]->VENTAS.", ".$salesByMonth[2]->VENTAS.", "
-					.$salesByMonth[3]->VENTAS.", ".$salesByMonth[4]->VENTAS.",".$salesByMonth[5]->VENTAS.","
-					.$salesByMonth[6]->VENTAS.",".$salesByMonth[7]->VENTAS.",".$salesByMonth[8]->VENTAS.","
-					.$salesByMonth[9]->VENTAS.",".$salesByMonth[10]->VENTAS.",".$salesByMonth[11]->VENTAS."], 
-					label: 'Año ".$currentYear."', fill: 'start', }, ], }, 
+					data: [" . $salesByMonth[0]->VENTAS . ", " . $salesByMonth[1]->VENTAS . ", " . $salesByMonth[2]->VENTAS . ", "
+			. $salesByMonth[3]->VENTAS . ", " . $salesByMonth[4]->VENTAS . "," . $salesByMonth[5]->VENTAS . ","
+			. $salesByMonth[6]->VENTAS . "," . $salesByMonth[7]->VENTAS . "," . $salesByMonth[8]->VENTAS . ","
+			. $salesByMonth[9]->VENTAS . "," . $salesByMonth[10]->VENTAS . "," . $salesByMonth[11]->VENTAS . "], 
+					label: 'Año " . $currentYear . "', fill: 'start', }, ], }, 
 					 }";
-		  return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
+		return $pdf = PDF::loadView('pdfs.vistaChartPDF', ['chart' => $url])->stream();
 	}
-	function chartBalanceAnual(){
-        $currentYear =  date("Y");
+	function chartBalanceAnual()
+	{
+		$currentYear =  date("Y");
 		$listVentas;
-		for ($i=0; $i <12; $i++) { 
-		$listVentas[$i] = Renta::whereMonth('acceso',$i+1)->whereYear('acceso', $currentYear)->sum('total');
+		for ($i = 0; $i < 12; $i++) {
+			$listVentas[$i] = Renta::whereMonth('acceso', $i + 1)->whereYear('acceso', $currentYear)->sum('total');
 		}
 		$listGastos;
-		for ($i=0; $i <12; $i++) { 
-		$listGastos[$i] = Caja::where('tipo','<>','Ingreso')->whereMonth('created_at',$i+1)->whereYear('created_at', $currentYear)->sum('monto');
+		for ($i = 0; $i < 12; $i++) {
+			$listGastos[$i] = Caja::where('tipo', '<>', 'Ingreso')->whereMonth('created_at', $i + 1)->whereYear('created_at', $currentYear)->sum('monto');
 		}
 		$listBalance;
-		for ($i=0; $i <12; $i++) { 
-		$listBalance[$i] = $listVentas[$i] - $listGastos[$i];
+		for ($i = 0; $i < 12; $i++) {
+			$listBalance[$i] = $listVentas[$i] - $listGastos[$i];
 		}
-		//$url="".$listBalance[0]."---".implode(",",$listBalance);
-		;//el array lo pasamos a un estring, cada dato separado por una coma
-		
-		$url="https://quickchart.io/chart?v=2.9.4&c={ 
+			//$url="".$listBalance[0]."---".implode(",",$listBalance);
+		; //el array lo pasamos a un estring, cada dato separado por una coma
+
+		$url = "https://quickchart.io/chart?v=2.9.4&c={ 
 			type: 'bar', 
 			data: { 
 				labels: ['Ene', 'Feb', 'Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'], 
 				datasets: [ 
-					{ label: 'Ventas', data: [".implode(",",$listVentas)."],backgroundColor: 'rgb(46,204,113)', }, 
-					{ label: 'Gastos', data: [".implode(",",$listGastos)."],backgroundColor: 'rgb(231,76,60)' }, 
-					{ label: 'Balance', data: [".implode(",",$listBalance)."],backgroundColor: 'rgb(0,143,251)' }, 
+					{ label: 'Ventas', data: [" . implode(",", $listVentas) . "],backgroundColor: 'rgb(46,204,113)', }, 
+					{ label: 'Gastos', data: [" . implode(",", $listGastos) . "],backgroundColor: 'rgb(231,76,60)' }, 
+					{ label: 'Balance', data: [" . implode(",", $listBalance) . "],backgroundColor: 'rgb(0,143,251)' }, 
 				], }, 
 				options: {
 					title: {
@@ -383,6 +387,104 @@ class PrinterController extends Controller
 					  text: 'Balance Anual',
 					}
 				  }}";
-		return $pdf=PDF::loadView('pdfs.vistaChartPDF',['chart' =>$url])->stream();
+		return $pdf = PDF::loadView('pdfs.vistaChartPDF', ['chart' => $url])->stream();
 	}
+
+	function ReportDaily()
+	{
+		//$ticket = Renta::select('*')->whereDate('created_at', Carbon::today())->get();
+
+		$ventas = Renta::leftjoin('tarifas as t', 't.id', 'rentas.tarifa_id')
+			->leftjoin('users as u', 'u.id', 'rentas.user_id')
+			->select('rentas.*', 't.costo as tarifa', 't.descripcion as vehiculo', 'u.name as usuario')
+			->whereDate('rentas.created_at', Carbon::today())
+			->get();
+		$total = Renta::whereDate('rentas.created_at', Carbon::today())->where('estatus', 'CERRADO')->sum('total');
+
+		//ExReport($data);
+		$pdf = PDF::setPaper('a4', 'landscape');
+		return $pdf->loadView('pdfs.vistaReportTablePDF', ['datos' => $ventas, 'total' => $total])->stream();
+	}
+	function ReportDates($date)
+	{
+		$arrayDates = explode("+", $date);
+		$dateIn = $arrayDates[0];
+		$dateEnd = $arrayDates[1];
+		
+		$fi = Carbon::parse(Carbon::now())->format('Y-m-d').' 00:00:00';
+    	$ff = Carbon::parse(Carbon::now())->format('Y-m-d').' 23:59:59';
+
+		if ($dateIn !== '') {
+			$fi = Carbon::parse($dateIn)->format('Y-m-d') . ' 00:00:00';
+		}
+		if ($dateEnd !== '') {
+			$ff = Carbon::parse($dateEnd)->format('Y-m-d') . ' 23:59:59';
+		}
+
+		$ventas = Renta::leftjoin('tarifas as t', 't.id', 'rentas.tarifa_id')
+			->leftjoin('users as u', 'u.id', 'rentas.user_id')
+			->select('rentas.*', 't.costo as tarifa', 't.descripcion as vehiculo', 'u.name as usuario')
+			->whereBetween('rentas.created_at', [$fi, $ff])
+			->paginate();
+			
+		$total = Renta::whereBetween('rentas.created_at', [$fi, $ff])->where('estatus', 'CERRADO')->sum('total');
+		$pdf = PDF::setPaper('a4', 'landscape');
+		return $pdf->loadView('pdfs.vistaReportTablePDF', ['datos' => $ventas, 'total' => $total])->stream();
+	}
+	function ReportComming(){
+		$info = Renta::leftjoin('vehiculos as v','v.id','rentas.vehiculo_id')
+		->leftjoin('cliente_vehiculos as cv','cv.vehiculo_id', 'v.id')
+		->leftjoin('users as u','u.id','cv.user_id')        			  
+		->where('rentas.vehiculo_id', '>', 0)
+		->where('rentas.estatus','ABIERTO')
+		->select('rentas.*','u.name as cliente','v.placa','v.modelo','v.marca'/* , 
+			DB::RAW("'' as restantemeses "),
+			DB::RAW("'' as restantedias "),
+			DB::RAW("'' as restantehoras "),
+			DB::RAW("'' as restanteyears "),
+			DB::RAW("'' as dif "),
+			DB::RAW("'' as estado ") */)
+		// ->orderBy('rentas.salida','asc')
+		->get();
+
+		foreach ($info as $r) {
+			$start = Carbon::now(); //::parse($r->acceso);
+			$end = Carbon::parse($r->salida);						
+			
+			if(Carbon::now()->greaterThan($end))  
+			{
+				$r->estado = "VENCIDO";
+				$years =0;
+				$months =0;
+				$days =0;
+				$hours =0;
+			}
+			else {
+				$days = $start->diffInDays($end); 
+				$r->estado = ($days > 3 ? "ACTIVO" : "PRÓXIMO");
+				$r->dif = Carbon::parse($r->salida)->diffForHumans();
+			}
+			
+			$r->restantedias =  $days;
+		}
+		$pdf = PDF::setPaper('a4', 'landscape');
+		return $pdf->loadView('pdfs.vistaReportCommingPDF', ['info' => $info])->stream();
+		//return $info;
+	}
+	function ticketRenta($name){
+		$userID= User::select('id')->where('name',$name)->get();
+		$info = Renta::leftjoin('vehiculos as v','v.id','rentas.vehiculo_id')
+		->leftjoin('cliente_vehiculos as cv','cv.vehiculo_id', 'v.id')
+		->leftjoin('users as u','u.id','cv.user_id')        			  
+		->where('rentas.vehiculo_id', '>', 0)
+		->where('rentas.estatus','ABIERTO')
+//->where('u.name',$name)
+		->select('rentas.*','u.name as cliente','v.placa','v.modelo','v.marca')
+		->orderBy('u.id','desc')
+		->paginate();
+		return $userID;
+	}
+	/* function ExReport($data){
+		return $pdf=PDF::loadView('pdfs.vistaReportTablePDF',['datos' =>$data])->stream();
+	} */
 }
