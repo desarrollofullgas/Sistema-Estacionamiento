@@ -18,6 +18,7 @@ class TarifasController extends Component
     public  $action = 1;             						//manejo de ventanas
     private $pagination;         						//paginación de tabla
     public  $tipos;
+    public $tolerancia=0; 
 
     public function mount()
     {

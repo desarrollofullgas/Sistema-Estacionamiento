@@ -72,12 +72,7 @@
         <p><b>No. de ticket: </b>{{$datos->barcode}}</p>
         <p><b>Acceso: </b>{{$datos->acceso}}</p>
         <p class="red"><b>Fecha estimada de salida: </b>{{$datos->acceso}}</p>
-        @if (isset($datos->finalSalida))
-            <p><b>Fecha de salida: </b>{{$datos->finalSalida}}</p>
-            <p><b>Hora de salida: </b>{{$datos->horaSalida}}</p>
-        @endif
     </div>
-    <br>
     <div class="info__cliente">
          - - - - - <b>Cliente:</b> {{$datos->cliente}} - - - - -  
     </div>

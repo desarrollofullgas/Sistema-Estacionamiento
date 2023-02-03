@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-5">
                     <label>Descripción</label>
-                    <div class="input-group ">
+                    {{-- <div class="input-group ">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -26,7 +26,14 @@
                         </div>
                         <input type="text" class="form-control" placeholder="Nombre del tipo"
                             wire:model.lazy="name">
-                    </div>
+                    </div> --}}
+                    <select wire:model="name" name="name" id="name" class="form-control text-center">
+                        <option value="Bicicleta">Bicicleta</option>
+                        <option value="Automovil">Automovil</option>
+                        <option value="Motocicleta">Motocicleta</option>
+                        <option value="Camioneta">Camioneta</option>
+                        <option value="Trailer">Trailer</option>
+                    </select>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

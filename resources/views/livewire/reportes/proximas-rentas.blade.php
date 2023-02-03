@@ -82,10 +82,10 @@
                                         <td class="text-center">
                                             @can('reporte_rentasavencer_salidas')
                                                 <a href="javascript:void(0);"
-                                                     wire:click.prevent="$emit('checkOutTicketPension', {{ $r->id }})"
+                                                   wire:click.prevent="$emit('checkOutTicketPension', {{ $r->id }})" 
                                                     title="Cerrar Ticket"
-                                                    class="rounded-circle btn btn-outline-dark btn-sm" onclick="PDFCommingSoon()"><i
-                                                        class="bi bi-check2-circle" onclick="PDFCommingSoon()"></i></a>
+                                                    class="rounded-circle btn btn-outline-dark btn-sm" onclick="PDFticketSalida({{ $r->id }},'{{ $r->cliente }}')"><i
+                                                        class="bi bi-check2-circle"></i></a>
                                             @endcan
                                         </td>
                                     </tr>
@@ -148,6 +148,10 @@ var rentasprox = document.getElementById('rentasprox'),
 </script> --}}
 <script>
     function PDFCommingSoon(){
-        window.open("print/reports/comming", "_blank", "width=400, height=600");
+        window.open("print/reports/comming", "_blank", "width=900, height=600");
+    }
+    function PDFticketSalida(id, cliente){
+        url="print/reports/commingEnd/"+id+"+"+cliente;
+        window.open(url, "_blank", "width=400, height=600");
     }
 </script>

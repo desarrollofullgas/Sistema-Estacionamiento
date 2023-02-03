@@ -254,6 +254,12 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           if($tarifaTipo==3){
             $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','3')->first()->costo;
           }
+          if($tarifaTipo==4){
+            $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','4')->first()->costo;
+          }
+          if($tarifaTipo==5){
+            $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','5')->first()->costo;
+          }
           //$fraccion = ($tarifa->costo*0.25);
           break;
         case ($m>15 && $m <=30):
@@ -265,6 +271,12 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           }
           if($tarifaTipo==3){
             $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','3')->first()->costo;
+          }
+          if($tarifaTipo==4){
+            $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','4')->first()->costo;
+          }
+          if($tarifaTipo==5){
+            $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','5')->first()->costo;
           }
           //$fraccion = ($tarifa->costo/2);
           break;
@@ -278,6 +290,12 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           if($tarifaTipo==3){
             $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','3')->first()->costo;
           }
+          if($tarifaTipo==4){
+            $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','4')->first()->costo;
+          }
+          if($tarifaTipo==5){
+            $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','5')->first()->costo;
+          }
           //$fraccion = ($tarifa->costo*0.75);
           break;
         case ($m>45):
@@ -289,6 +307,12 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           }
           if($tarifaTipo==3){
             $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','3')->first()->costo;
+          }
+          if($tarifaTipo==4){
+            $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','4')->first()->costo;
+          }
+          if($tarifaTipo==5){
+            $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','5')->first()->costo;
           }
           //$fraccion = ($tarifa->costo);
           //$fraccion=$m;

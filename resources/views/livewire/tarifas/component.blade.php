@@ -49,6 +49,8 @@
                         </div>
                     @elseif($action == 2)
                         @include('livewire.tarifas.form')
+                    @elseif($action == 3)
+                        @include('livewire.tarifas.formTolerancia')
         @endif
     </div>
 
@@ -61,7 +63,7 @@
         </div>
         <div class="card-body flex--centrado-horizontal">
             @include('common.search', ['create' => 'tarifas_create'])
-        </div>
+        </div>   
     </div>
 </div>
 </div>

@@ -492,6 +492,34 @@ class PrinterController extends Controller
 		return $pdf->loadView('pdfs.vistaPDFticketRenta', ['datos' => $info])->stream();	
 		//return $info;
 	}
+	function ReportCommingEnd($data){
+
+		$array=explode('+',$data);
+		$id=$array[0];
+		$name=$array[1];
+		
+		$userID= User::select('id')->where('name',$name)->first()->id;
+		$vehiculo= ClienteVehiculo::select('vehiculo_id')->where('user_id',$userID)->first()->vehiculo_id;
+		$info = Renta::leftjoin('vehiculos as v','v.id','rentas.vehiculo_id')
+		->leftjoin('cliente_vehiculos as cv','cv.vehiculo_id', 'v.id')
+		->leftjoin('users as u','u.id','cv.user_id')        			  
+		->where('rentas.vehiculo_id',$vehiculo)
+		->where('rentas.id',$id)
+		->where('rentas.estatus','ABIERTO')
+		->select('rentas.*','u.name as cliente','v.placa','v.modelo','v.marca')
+		->orderBy('u.id','desc')
+		->first();
+/* 		$start = Carbon::parse($info->acceso);
+		$end = Carbon::parse($info->salida);
+		$days = $start->diffInDays($end);
+		$info->meses= $start->diffInMonths($end);
+		$info->dias=$days; */
+		$info->finalSalida=Carbon::now()->toDateString();
+		$info->horaSalida=Carbon::now()->toTimeString();
+		$pdf = PDF::setPaper(array(0, 0, 147.40, 320));
+		return $pdf->loadView('pdfs.vistaPDFticketRenta', ['datos' => $info])->stream();
+		//return $info;
+	}
 	/* function ExReport($data){
 		return $pdf=PDF::loadView('pdfs.vistaReportTablePDF',['datos' =>$data])->stream();
 	} */

@@ -86,6 +86,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(fun
 	}));
 	Route::get('print/reports/daily', [PrinterController::class, 'ReportDaily']);
 	Route::get('print/reports/comming', [PrinterController::class, 'ReportComming']);
+	Route::get('print/reports/commingEnd/{data}', [PrinterController::class, 'ReportCommingEnd']);
 	Route::get('print/reports/{date}', [PrinterController::class, 'ReportDates']);
 
 //Route::get('print/order/{id}', [PrinterController::class, 'TicketVisita'])->name('print/order');

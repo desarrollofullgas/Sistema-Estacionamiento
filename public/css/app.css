@@ -19362,6 +19362,15 @@ nav{
   display: flex;
   justify-content: center;
 }
+.flex__horizontal{
+  display: flex;
+  flex-direction: row;
+}
+.flex__cent_vert{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 @media screen and (max-width:550px) {
   .width--70-100{
     width: 100%;
