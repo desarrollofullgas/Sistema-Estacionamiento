@@ -42,9 +42,8 @@
                             </div>
                         </div>
                         <!--row info ticket y cobro -->
-                        <div class="row">
-
-                            <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="row" style="padding: 1rem;">
+                            <div {{-- class="col-lg-8 col-md-8 col-sm-12" --}}>
                                 <div class="col-sm-12">
                                     <h6><b>Folio</b>: <h6 id="folio">{{ $obj->id }}</h6> </h6>
                                     <input type="hidden" id="ticketid" value="{{ $obj->id }}" />
@@ -53,10 +52,10 @@
                                     <h6><b>Estatus</b>: {{ $obj->estatus }} </h6>
                                 </div>
                                 <div class="col-sm-12">
-                                    <h6><b>Tarifa</b>: ${{ number_format($obj->tarifa->costo, 2) }} </h6>
+                                    <h6><b>Tarifa inicial</b>: ${{ number_format($obj->tarifa->costo, 2) }} </h6>
                                 </div>
                                 <div class="col-sm-12">
-                                    <h6><b>Acceso</b>: {{ \Carbon\Carbon::parse($obj->acceso)->format('d/m/Y h:m:s') }}
+                                    <h6><b>Acceso</b>: {{$obj->acceso}} {{-- {{ \Carbon\Carbon::parse($obj->acceso)->format('d/m/Y h:m:s') }} --}}
                                     </h6>
                                 </div>
                                 <div class="col-sm-12">
@@ -69,6 +68,15 @@
                                 @endif
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div>
+                                    <i class="bi bi-hourglass-split"></i> <b>Tiempo de tolerancia:</b><b class="red">
+                                        {{$obj->tolerancia}}
+                                        @if (($obj->tolerancia)==1)
+                                        minuto
+                                        @else
+                                        minutos
+                                    @endif</b>
+                                </div>
                                 <blockquote class="blockquote text-center">
                                     <h5><b>Cobro hasta el momento</b></h5>
                                     <h6><i class="bi bi-alarm"></i> Tiempo Transcurrido: {{ $obj->tiempo }} </h6>

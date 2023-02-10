@@ -46,6 +46,7 @@
 
     </div>
     </div>
+    @can('tipos_create')       
     <div class="col-sm-12 col-md-2">
         <div class="card m-0">
             <div class="card-header">
@@ -56,6 +57,7 @@
             </div>
         </div>
     </div>
+    @endcan
     </div>
     @include('common.alerts')
 

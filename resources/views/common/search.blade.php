@@ -13,13 +13,8 @@
         <x-jet-button type="button" wire:click="doAction(2)" class="btn-sm rounded-circle ">
            <i class="bi bi-plus-circle-fill"></i>
        </x-jet-button> <br>
-       <span>Nueva Tarifa</span>
+       <span>Añadir</span>
    </div>
-   <div class="text-center flex__horizontal flex__cent_vert">
-    <x-jet-button type="button" wire:click="doAction(3)" class="btn-sm rounded-circle ">
-        <i class="bi bi-hourglass-split"></i>
-   </x-jet-button> <br>
-   <span>Tolerancia</span>
-   </div>
+   {{-- pasar esto a su respectiva vista --}}
     @endcan
 </div>

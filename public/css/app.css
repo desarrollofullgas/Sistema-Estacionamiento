@@ -19366,10 +19366,17 @@ nav{
   display: flex;
   flex-direction: row;
 }
+.flex__vertical{
+  display: flex;
+  flex-direction: column;
+}
 .flex__cent_vert{
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.red{
+  color: #FF0000;
 }
 @media screen and (max-width:550px) {
   .width--70-100{

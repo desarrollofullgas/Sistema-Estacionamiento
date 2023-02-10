@@ -94,10 +94,22 @@
             @foreach ($datos as $registro)
             <tr class="data">
                 <th>{{$registro->barcode}}</th>
-                <th>{{$registro->descripcion}}</th>
+                <th>
+                    @if ($registro->descripcion==null)
+                    {{$registro->placa}}    
+                    @else
+                    {{$registro->descripcion}}
+                    @endif
+                </th>
                 <th>{{$registro->acceso}}</th>
                 <th>{{$registro->salida}}</th>
-                <th>{{$registro->hours}}</th>
+                <th>
+                    @if ($registro->hours != null)
+                        {{$registro->hours}}
+                    @else
+                        ------
+                    @endif
+                </th>
                 <th>{{$registro->tarifa}}</th>
                 <th>
                     @if ($registro->multa > 0)

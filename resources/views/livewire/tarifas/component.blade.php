@@ -56,16 +56,26 @@
 
 </div>
 </div>
+@can('tolerancia_modify')    
 <div class="col-sm-12 col-md-2">
     <div class="card m-0">
         <div class="card-header">
             <div class="card-title">Menú.</div>
         </div>
-        <div class="card-body flex--centrado-horizontal">
-            @include('common.search', ['create' => 'tarifas_create'])
-        </div>   
+        <div class="card-body flex__vertical flex__cent_vert">
+            <div class="text-center flex__horizontal flex__cent_vert">
+                <x-jet-button type="button" wire:click="doAction(3)" class="btn-sm rounded-circle ">
+                    <i class="bi bi-hourglass-split"></i>
+               </x-jet-button> <br>
+               <span>Tolerancia</span>
+            </div>
+            @include('common.search', ['create' => 'tarifas_create'])   
+            
+        </div>
+        
     </div>
 </div>
+@endcan
 </div>
 @include('common.alerts')
 

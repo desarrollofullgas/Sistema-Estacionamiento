@@ -47,6 +47,7 @@
         @endif
     </div>
 </div>
+@can('tarifas_create')   
 <div class="col-sm-12 col-md-2">
     <div class="card">
         <div class="card-header">
@@ -57,6 +58,7 @@
         </div>
     </div>
 </div>
+@endcan
 </div>
 </div>
 <script type="text/javascript">

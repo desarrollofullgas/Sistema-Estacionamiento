@@ -62,7 +62,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
                                         </div>
-                                        <input type="text" id="code" wire:keydown.enter="$emit('doCheckOut','',2)"
+                                        <input type="text" id="code" wire:keydown.enter="$emit('doCheckOut','',2,'{{ $c->tipo_id }}')"
                                             wire:model="barcode" class="form-control" maxlength="9"
                                             placeholder="Buscar Código" autofocus>
                                         <div class="input-group-append">
@@ -240,12 +240,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         try {
             onScan.attachTo(document, {
+            
                 //configuración del sufijo/ tecla esperada al finalizar la lectura del scan, esto indica a onScan la finalización del evento
                 suffixKeyCodes: [13],
                 onScan: function(barcode) { //función callback que se dispara después de una lectura
                     console.log(barcode)
-                    window.livewire.emit('doCheckOut', barcode,
-                        2) //emitimos el evento para consultar la info y cobrar el ticket
+                    window.livewire.emit('doCheckScan', barcode,2)  //emitimos el evento para consultar la info y cobrar el ticket
                 },
                 onScanError: function(e) { //función callback para captura de errores de lectura
                     // toastr.error('', 'Error de lectura' + e) 

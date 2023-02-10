@@ -83,6 +83,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'tarifas_create']);
         Permission::create(['name' => 'tarifas_edit']);
         Permission::create(['name' => 'tarifas_destroy']);
+        Permission::create(['name' => 'tolerancia_modify']);
 
 
         //cortes de caja
@@ -165,6 +166,7 @@ class PermissionsTableSeeder extends Seeder
             'tarifas_create',
             'tarifas_edit',
             'tarifas_destroy',
+            'tolerancia_modify',
             'cortes_index',
             'cortes_create',
             'cortes_imprimir',

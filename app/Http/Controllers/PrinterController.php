@@ -360,7 +360,8 @@ class PrinterController extends Controller
 		$currentYear =  date("Y");
 		$listVentas;
 		for ($i = 0; $i < 12; $i++) {
-			$listVentas[$i] = Renta::whereMonth('acceso', $i + 1)->whereYear('acceso', $currentYear)->sum('total');
+			$listVentas[$i] = (Renta::whereMonth('acceso',$i+1)->whereYear('acceso', $currentYear)->sum('total'))+(Caja::whereMonth('created_at',$i+1)->whereYear('created_at',$currentYear)->sum('monto'));
+			//$listVentas[$i] = Renta::whereMonth('acceso', $i + 1)->whereYear('acceso', $currentYear)->sum('total');
 		}
 		$listGastos;
 		for ($i = 0; $i < 12; $i++) {
@@ -488,7 +489,7 @@ class PrinterController extends Controller
 		$days = $start->diffInDays($end);
 		$info->meses= $start->diffInMonths($end);
 		$info->dias=$days;
-		$pdf = PDF::setPaper(array(0, 0, 147.40, 260));
+		$pdf = PDF::setPaper(array(0, 0, 147.40, 300));
 		return $pdf->loadView('pdfs.vistaPDFticketRenta', ['datos' => $info])->stream();	
 		//return $info;
 	}

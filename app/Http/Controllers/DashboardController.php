@@ -126,7 +126,7 @@ $chartVentaxMes = (new LarapexChart)->setType('area')
 //balance anual
 $listVentas;
 for ($i=0; $i <12; $i++) { 
-  $listVentas[$i] = Renta::whereMonth('acceso',$i+1)->whereYear('acceso', $currentYear)->sum('total');
+  $listVentas[$i] = (Renta::whereMonth('acceso',$i+1)->whereYear('acceso', $currentYear)->sum('total'))+(Caja::whereMonth('created_at',$i+1)->whereYear('created_at',$currentYear)->sum('monto'));
 }
 $listGastos;
 for ($i=0; $i <12; $i++) { 
@@ -134,7 +134,7 @@ for ($i=0; $i <12; $i++) {
 }
 $listBalance;
 for ($i=0; $i <12; $i++) { 
-  $listBalance[$i] =number_format($listVentas[$i] - $listGastos[$i],2);
+  $listBalance[$i] =$listVentas[$i] - $listGastos[$i];//number_format($listVentas[$i] - $listGastos[$i],2);
 }
 $chartBalancexMes = (new LarapexChart)->setTitle('Balance Anual')        
 ->setType('bar')

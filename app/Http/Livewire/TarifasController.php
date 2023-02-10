@@ -7,6 +7,8 @@ use Livewire\Component;
 use App\Models\Tarifa;
 use App\Models\Tipo;
 use App\Models\Renta;
+use App\Models\Tolerancia;
+use Carbon\Carbon;
 
 class TarifasController extends Component
 {
@@ -208,5 +210,22 @@ public function destroy($id)
 
 }
 
+public function StoreTolerance(){
+
+    $exist= Tolerancia::select('*')->get();
+
+    if($exist->count()>0){
+        $updateTolerancia= new Tolerancia();
+        $updateTolerancia->where('id',1)->update(['tiempo'=>$this->tolerancia]);
+        $this->emit('msg-error', 'Tolerancia actualizada');
+    }
+    else{
+        $crearTipo=new  Tolerancia();
+        $crearTipo->tiempo=$this->tolerancia;
+        $crearTipo->save();
+        $this->emit('msgok', "Tolerancia registrada exitosamente");
+    }
+    return $exist;
+}
 
 }

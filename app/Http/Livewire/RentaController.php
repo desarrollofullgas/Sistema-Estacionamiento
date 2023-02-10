@@ -9,6 +9,7 @@ use App\Models\Cajon;
 use App\Models\Renta;
 use App\Models\Tarifa;
 use App\Models\Tipo;
+use App\Models\Tolerancia;
 use App\Models\User;
 use App\Models\Vehiculo;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -16,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 //use Config\FPDF;
 use Codedge\Fpdf\Fpdf\Fpdf;
-
+use Symfony\Component\HttpFoundation\RequestMatcher\HostRequestMatcher;
 
 class RentaController extends Component
 {
@@ -105,17 +106,15 @@ class RentaController extends Component
 protected $listeners = [
   'RegistrarEntrada'   => 'RegistrarEntrada',
   'doCheckOut'       => 'doCheckOut',
-  'doCheckIn' => 'RegistrarEntrada'
+  'doCheckIn' => 'RegistrarEntrada',
+  'doCheckScan' => 'doCheckScan'
 ];
 
-
-
-
-  //consulta la información de un ticket
-public function doCheckOut($barcode, $section = 2,$tipo)
-{        
+public function doCheckScan($barcode, $section) {
   $bcode = ($barcode == '' ? $this->barcode : $barcode);
   $obj = Renta::where('barcode',$bcode)->select('*', DB::RAW("'' as tiempo "), DB::RAW("0 as total "))->first();
+  $tipo= Tarifa::select('tipo_id')->where('id',$this->obj->tarifa_id)->first()->tipo_id;
+  $tolerance= Tolerancia::select('tiempo')->first()->tiempo;
 
   if($obj !=null )
   { 
@@ -129,6 +128,36 @@ public function doCheckOut($barcode, $section = 2,$tipo)
     $obj->total = $this->calculateTotal($tipo,$obj->acceso, $obj->tarifa_id);
     $this->obj = $obj;
     $this->obj->tipo_id =$tipo;
+    $this->obj->tolerancia= $tolerance;
+
+  }else {
+    $this->emit('msg-ok', 'No existe el código de barras');
+    $this->barcode ='';
+    return;
+  }
+}
+
+
+  //consulta la información de un ticket
+public function doCheckOut($barcode, $section = 2,$tipo)
+{        
+  $bcode = ($barcode == '' ? $this->barcode : $barcode);
+  $obj = Renta::where('barcode',$bcode)->select('*', DB::RAW("'' as tiempo "), DB::RAW("0 as total "))->first();
+  $tolerance= Tolerancia::select('tiempo')->first()->tiempo;
+
+  if($obj !=null )
+  { 
+    $this->section = $section;
+    $this->barcode = $bcode;
+
+    $start  =  Carbon::parse($obj->acceso);
+    $end    = new \DateTime(Carbon::now());   
+    $obj->tiempo= $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');//diferencia en horas + dif en min y seg
+
+    $obj->total = $this->calculateTotal($tipo,$obj->acceso, $obj->tarifa_id);
+    $this->obj = $obj;
+    $this->obj->tipo_id =$tipo;
+    $this->obj->tolerancia= $tolerance;
 
   }else {
     $this->emit('msg-ok', 'No existe el código de barras');
@@ -143,22 +172,31 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
 {
   $tarifaTipo=$tipo;
  $fraccion = 0;
+ $tolerancia= Tolerancia::select('*')->first();
  //$tarifa = Tarifa::where('id', $tarifaId)->first();
  $tarifa = Tarifa::where('tiempo','Hora')->where('tipo_id',$tarifaTipo)->first();
  $tarifaInicial=Tarifa::where('id', $tarifaId)->first();       
- $start  =  Carbon::parse($fromDate);   
+ $start  =  Carbon::parse($fromDate);
+ $toleranciaTime=0;   
  $end    =  new \DateTime(Carbon::now());
  if(!$toDate =='')   $end = Carbon::parse($toDate);
 
    $tiempo= $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');//dif en horas + dif en min y seg
 
    $minutos = $start->diffInMinutes($end); 
-   $horasCompletas = $start->diffInHours($end); 
+   $horasCompletas = $start->diffInHours($end);
+    
 
+   if($tolerancia->count()>0){
+    $toleranciaTime = $tolerancia->tiempo;
+   }
+   else{
+    $toleranciaTime=0;
+   }
 
    if($minutos <= 65){
      $fraccion = $tarifa->costo; 
-   }
+   } 
    /* else {
     $m=($minutos % 60);
         switch($m) {
@@ -240,11 +278,21 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
       //} 
 
       $m=($minutos % 60);
+      $segundos=($start->diffInSeconds($end)-($minutos*60));
+
+      /* if($m>0 && $m <(15+$toleranciaTime) && $segundos>0 && $segundos<60){}
+      if($m>(15+$toleranciaTime) && $m <=(30+$toleranciaTime)){}
+      if($m>(30+$toleranciaTime) && $m <=(45+$toleranciaTime)){}
+      if($m>(45+$toleranciaTime)){}
+      if(){} */
       switch($m) {
-        case ($m>=0 && $m <=5):
-          $fraccion = 0;
-          break;
-        case ($m>5 && $m <=15):
+        /* case ($m>=0 && $m <=$toleranciaTime):
+          if(($m/60)<1 || $segundos<60){
+            $tarifa->costo=0;
+            $fraccion = 0;
+          }
+          break; */
+        case ($m>0 && $m <(15+$toleranciaTime) && $segundos>=0 && $segundos<60):
           if($tarifaTipo==1){
             $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','1')->first()->costo;
           }
@@ -262,7 +310,7 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           }
           //$fraccion = ($tarifa->costo*0.25);
           break;
-        case ($m>15 && $m <=30):
+        case ($m>=(15+$toleranciaTime) && $m <(30+$toleranciaTime) && $segundos>=0 && $segundos<60 ):
           if($tarifaTipo==1){
             $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','1')->first()->costo;
           }
@@ -280,7 +328,7 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           }
           //$fraccion = ($tarifa->costo/2);
           break;
-        case ($m>30 && $m <=45):
+        case ($m>=(30+$toleranciaTime) && $m <(45+$toleranciaTime) && $segundos>=0 && $segundos<60 /* && 1>($m/60) */):
           if($tarifaTipo==1){
             $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','1')->first()->costo;
           }
@@ -298,7 +346,7 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
           }
           //$fraccion = ($tarifa->costo*0.75);
           break;
-        case ($m>45):
+        case ($m>=(45+$toleranciaTime)&& $segundos>=0 && $segundos<60):
           if($tarifaTipo==1){
             $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','1')->first()->costo;
           }
@@ -326,6 +374,7 @@ public function calculateTotal($tipo,$fromDate, $tarifaId, $toDate = '')
         } */
         $total = (($horasCompletas * $tarifa->costo) + $fraccion);
         //$total=($fraccion);
+        //$total=$tarifa->costo * $horasCompletas;
         $fraccion=0;
         $tipo=0;
         return $total;
@@ -560,7 +609,7 @@ public function RegistrarTicketRenta()
   //reglas de validación
   $rules = [
     'name'     => 'required|min:3',
-    'direccion'    => 'required',            
+    /* 'direccion'    => 'required', */            
     'placa'    => 'required|max:7',
     'email' =>'nullable|email',     
   ];
@@ -568,7 +617,7 @@ public function RegistrarTicketRenta()
   //mensajes personalizados
   $customMessages = [
     'name.required' => 'El campo Nombre es obligatorio',
-    'direccion.required' => 'Por favor ingresa la Dirección',         
+    /* 'direccion.required' => 'Por favor ingresa la Dirección',  */        
     'placa.required' => 'Debes ingresar el número de Placa',
     'placa.max' => 'La Placa no debe exceder 7 caracteres',          
   ];
@@ -602,7 +651,7 @@ public function RegistrarTicketRenta()
         'name' => $this->name,
         'telefono' => $this->telefono,
         'movil' => $this->celular,
-        'direccion' => $this->direccion,
+        /* 'direccion' => $this->direccion, */
         'tipo' => 'Cliente',
         'email' =>  $this->email,
         'password' => bcrypt('secret2022.')
@@ -717,7 +766,7 @@ public function mostrarCliente($cliente)
   // $this->telefono = $clienteJson->telefono;
   // $this->celular = $clienteJson->movil;
   $this->email = $clienteJson->email;
-  // $this->direccion = $clienteJson->direccion;
+  //$this->direccion = $clienteJson->direccion;
 
   $this->placa = $clienteJson->placa;
   $this->modelo = $clienteJson->modelo;

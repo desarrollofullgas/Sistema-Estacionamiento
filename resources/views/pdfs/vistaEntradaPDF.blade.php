@@ -49,6 +49,15 @@
         .info p{
             padding-top: 1rem;
         }
+        .qr{
+            padding: 1rem;
+            text-align: center;
+            height: 3rem;
+        }
+        .qr *{
+            width: 90%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -61,6 +70,8 @@
         <p><b>Acceso: </b>{{$datos->acceso}}</p>
         <p><b>Placas del vehículo: </b>{{$datos->descripcion}}</p>
     </div>
-    
+    <div class="qr">
+        {!!'<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($datos->barcode, 'C39') . '" alt="barcode"   />';!!}
+    </div>
 </body>
 </html>

@@ -21,7 +21,7 @@
                             <br>
                             <b>Cantidad Registros</b>: {{ $info->count() }}
                         </div>
-                        <div class="col-sm-12 col-md-8 float-right">
+                        <div {{-- class="col-sm-12 col-md-8 float-right" --}}>
                             <p align="right"><img src="{{asset('img/logotype/LogoEstacionamientoFG2.png')}}" style="width: 150px" alt=""></p>
                         </div>
                     </div>

@@ -38,7 +38,7 @@
                             <br>
                             <b>Total Ingresos</b>: ${{ number_format($sumaTotal,2) }}
                         </div>
-                        <div class="col-sm-12 col-md-3 ">
+                        <div {{-- class="col-sm-12 col-md-3 " --}}>
                             <p align="right"><img src="{{asset('img/logotype/LogoEstacionamientoFG2.png')}}" style="width: 150px" alt=""></p>
                         </div>
                         <hr>
@@ -67,12 +67,21 @@
                                 <td>
                                     {{$r->vehiculo}} 
                                     @if($r->descripcion !=null)
-                                    <br>"{{$r->descripcion}}"
+                                        <br>"{{$r->descripcion}}"
+                                    @else
+                                        <br>"{{$r->placa}}"
                                     @endif
                                 </td>
                                 <td>{{$r->acceso}}</td>
                                 <td>{{$r->salida}}</td>
-                                <td>{{$r->hours}} Hrs.</td>
+                                <td>
+                                    @if ($r->hours != null)
+                                        {{$r->hours}}
+                                    @else
+                                        0
+                                    @endif
+                                     Hrs.
+                                </td>
                                 <td>${{number_format($r->tarifa,2)}}</td>
                                 <td>${{$r->total}}</td>         
                                 <td>{{$r->usuario}}</td>        

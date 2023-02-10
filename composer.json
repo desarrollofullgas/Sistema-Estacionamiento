@@ -20,6 +20,7 @@
         "livewire/livewire": "^2.5",
         "maatwebsite/excel": "^1.1",
         "mike42/escpos-php": "^2.2",
+        "milon/barcode": "^10.0",
         "psr/simple-cache": "1.0",
         "realrashid/sweet-alert": "^5.1",
         "spatie/laravel-permission": "^5.5"
