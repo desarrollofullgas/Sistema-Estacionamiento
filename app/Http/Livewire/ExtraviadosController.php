@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\WithPagination;
 use Livewire\Component;
 use App\Models\Renta;
+use App\Models\Tarifa;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Calc;
 
@@ -19,7 +20,7 @@ class ExtraviadosController extends Component
 
 	public function render()
 	{
-
+		$tipo=0;
 		if(strlen($this->search) > 0)
 		{
 			$rentas = Renta::leftjoin('tarifas as t', 't.id', 'rentas.tarifa_id')
@@ -39,7 +40,7 @@ class ExtraviadosController extends Component
 		}
 
 		foreach ($rentas as $r) {
-			$total= $this->DameTotal($r->acceso, $r->tarifa_id);			
+			$total= $this->DameTotal($r->barcode,$r->acceso, $r->tarifa_id);			
 			$r->pago = number_format($total,2);
 		}
 

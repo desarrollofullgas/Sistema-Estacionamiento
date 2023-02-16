@@ -53,7 +53,7 @@
                                                         </button>
                                                     </form>
                                                     {{-- Eliminar Permanente --}}
-                                                    <form method="POST" action="{{ route('deleteuser_permanently') }}"
+                                                    {{-- <form method="POST" action="{{ route('deleteuser_permanently') }}"
                                                         onsubmit="return confirm('Eliminar de manera permanente al usuario);">
 
                                                         {{ csrf_field() }}
@@ -64,7 +64,7 @@
                                                             class="btn btn-danger btn-sm rounded-circle ml-2">
                                                             <i class="bi bi-trash3"></i>
                                                         </button>
-                                                    </form>
+                                                    </form> --}}
                                                 @endcan
                                             </td>
                                         </tr>

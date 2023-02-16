@@ -80,7 +80,7 @@
                                     placeholder="ej: fullgas@fullgas.com.mx">
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6">
+                        {{-- <div class="col-sm-12 col-md-6">
                             <h7>Dirección*</h7>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -92,7 +92,7 @@
                             @error('direccion')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="form-group col-sm-12 col-md-8">
                             <h7>Observaciones</h7>
                             <div class="input-group">
@@ -229,7 +229,7 @@
                                     class="btn btn-dark mt-4" onclick="registrarTicket()">Registrar Entrada</button>
                             @endif
                         </div>
-                        <div class="col-md-4 col-lg-4 col-sm-12 text-right">
+                        {{-- <div class="col-md-4 col-lg-4 col-sm-12 text-right">
                             <div class="n-chk mt-4">
                                 <label class="new-control new-checkbox checkbox-primary">
                                     <input wire:model="printTicket" type="checkbox" class="new-control-input"
@@ -237,7 +237,7 @@
                                     <span class="new-control-indicator"></span>Imprimir Recibo
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

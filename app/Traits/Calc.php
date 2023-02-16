@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Renta;
 use App\Models\Tarifa;
 use App\Models\Cajon;
+use App\Models\Tolerancia;
 
 //Los trait son un mecanismo de reutilizacion de codigo que nos permiten emular la herencia múltiple a partir de la version 5.4 de PHP
 //Son similares a una clase, pero su objetivo es agrupar funcionalidades especificas y comunes
@@ -14,12 +15,18 @@ use App\Models\Cajon;
 trait Calc
 {
 
-  public static function DameTotal($fromDate, $tarifaId, $toDate = '')
+  public static function DameTotal($barcode, $fromDate, $tarifaId, $toDate = '')
   {
-
+    $tarifaID=Renta::select('tarifa_id')->where('barcode',$barcode)->first()->tarifa_id;
+    $tipo=Tarifa::select('tipo_id')->where('id',$tarifaID)->first()->tipo_id;
+    $tarifaTipo=$tipo;
    $fraccion = 0;
-   $tarifa = Tarifa::where('id', $tarifaId)->first();      
-   $start  =  Carbon::parse($fromDate);   
+   $tolerancia= Tolerancia::select('*')->first();
+//$tarifa = Tarifa::where('id', $tarifaId)->first();
+$tarifa = Tarifa::where('tiempo','Hora')->where('tipo_id',$tarifaTipo)->first();      
+$tarifaInicial=Tarifa::where('id', $tarifaId)->first();
+$start  =  Carbon::parse($fromDate);
+   $toleranciaTime=0;   
    $end    =  new \DateTime(Carbon::now());
    if(!$toDate =='')   $end = Carbon::parse($toDate);
 
@@ -27,13 +34,21 @@ trait Calc
    $tiempo= $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');
 
    $minutos = $start->diffInMinutes($end); 
-   $horasCompletas = $start->diffInHours($end); 
+   $horasCompletas = $start->diffInHours($end);
+   
+   
+   if($tolerancia->count()>0){
+    $toleranciaTime = $tolerancia->tiempo;
+   }
+   else{
+    $toleranciaTime=0;
+   }
 
 
    if($minutos <= 65){
    	$fraccion = $tarifa->costo; 
    }
-   else {
+   /* else {
    	$m = ($minutos % 60);
     if ( in_array($m, range(0,5)) ) { // después de la 1ra hora, se dan 5 minutos de tolerancia al cliente
            //
@@ -49,7 +64,7 @@ trait Calc
     }
     else if ( in_array($m, range(46,59)) ){
           $fraccion = $tarifa->costo;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa ($13.00)
-        }
+        } */
         
     /* else if ( in_array($m, range(6,30)) ){
         $fraccion = ($tarifa->costo / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa ($6.50)
@@ -68,10 +83,88 @@ trait Calc
           $fraccion = $tarifa->costo;
           break;
       } */
-        }
-
+        //}
+        $m=($minutos % 60);
+        $segundos=($start->diffInSeconds($end)-($minutos*60));
+        switch($m) {
+          case ($m>0 && $m <(15+$toleranciaTime) && $segundos>=0 && $segundos<60):
+            if($tarifaTipo==1){
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','1')->first()->costo;
+            }
+            if($tarifaTipo==2) {
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','2')->first()->costo;
+            }
+            if($tarifaTipo==3){
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','3')->first()->costo;
+            }
+            if($tarifaTipo==4){
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','4')->first()->costo;
+            }
+            if($tarifaTipo==5){
+              $fraccion = Tarifa::where('tiempo','15 minutos')->where('tipo_id','5')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo*0.25);
+            break;
+          case ($m>=(15+$toleranciaTime) && $m <(30+$toleranciaTime) && $segundos>=0 && $segundos<60 ):
+            if($tarifaTipo==1){
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','1')->first()->costo;
+            }
+            if($tarifaTipo==2) {
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','2')->first()->costo;
+            }
+            if($tarifaTipo==3){
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','3')->first()->costo;
+            }
+            if($tarifaTipo==4){
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','4')->first()->costo;
+            }
+            if($tarifaTipo==5){
+              $fraccion = Tarifa::where('tiempo','30 minutos')->where('tipo_id','5')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo/2);
+            break;
+          case ($m>=(30+$toleranciaTime) && $m <(45+$toleranciaTime) && $segundos>=0 && $segundos<60 /* && 1>($m/60) */):
+            if($tarifaTipo==1){
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','1')->first()->costo;
+            }
+            if($tarifaTipo==2) {
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','2')->first()->costo;
+            }
+            if($tarifaTipo==3){
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','3')->first()->costo;
+            }
+            if($tarifaTipo==4){
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','4')->first()->costo;
+            }
+            if($tarifaTipo==5){
+              $fraccion = Tarifa::where('tiempo','45 minutos')->where('tipo_id','5')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo*0.75);
+            break;
+          case ($m>=(45+$toleranciaTime)&& $segundos>=0 && $segundos<60):
+            if($tarifaTipo==1){
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','1')->first()->costo;
+            }
+            if($tarifaTipo==2) {
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','2')->first()->costo;
+            }
+            if($tarifaTipo==3){
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','3')->first()->costo;
+            }
+            if($tarifaTipo==4){
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','4')->first()->costo;
+            }
+            if($tarifaTipo==5){
+              $fraccion = Tarifa::where('tiempo','Hora')->where('tipo_id','5')->first()->costo;
+            }
+            //$fraccion = ($tarifa->costo);
+            //$fraccion=$m;
+            break;
+          }
         //retornamos el total a cobrar
         $total = (($horasCompletas * $tarifa->costo) + $fraccion);
+        $fraccion=0;
+        $tipo=0;
         return $total;
 
       }
@@ -116,7 +209,7 @@ trait Calc
      $tiempo = $this->CalculaTiempo($ticket->acceso);
 
    //obtenemos el total
-     $nuevoTotal =  $this->DameTotal($ticket->acceso, $ticket->tarifa_id);
+     $nuevoTotal =  $this->DameTotal($ticket->barcode,$ticket->acceso, $ticket->tarifa_id);
 
    //guardamos la salida
      $ticket->salida = Carbon::now();

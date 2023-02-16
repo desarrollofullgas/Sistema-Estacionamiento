@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 
 /*
@@ -80,6 +81,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),])->group(fun
 	Route::get('print/order/Ticket/{name}', [PrinterController::class, 'ticketRenta']);  
 	Route::get('print/corte', (function (Request $request){	
 		//PrinterController::cortePDF($data);
+		if($request->d==null){
+			$request->d = Carbon::now()->toDateString();
+		}
 		$pdf=PDF::loadView('pdfs.vistaCortePDF',['data' => $request]);
 		return $pdf->stream();
 		//return $data['v'];

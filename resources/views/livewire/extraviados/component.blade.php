@@ -42,7 +42,7 @@
                                     <td>
                                         @can('extraviados_salidas')
                                             <a href="#" class="btn btn-dark btn-sm"
-                                                onclick="eventCheckOut('{{ $r->barcode }}')"
+                                                onclick="eventCheckOut('{{ $r->barcode }}',{{$r->id}})"
                                                 title="COBRAR Y DAR SALIDA DEL VEHÍCULO">
                                                 <i class="bi bi-check2-circle"></i>
                                             </a>
@@ -54,6 +54,7 @@
                     </table>
                 </div>
                 <input type="hidden" id="barcode" />
+                <input type="hidden" id="id" />
             </div>
             <!--MODAL-->
             <div class="modal fade" id="modalSalida" tabindex="-1" role="dialog">
@@ -79,8 +80,8 @@
     </div>
 </div>
 <script type="text/javascript">
-    function eventCheckOut(barcode) {
-
+    function eventCheckOut(barcode,id) {
+        $('#id').val(id);
         $('#barcode').val(barcode)
         $('#modalSalida').modal('show')
     }
@@ -89,9 +90,13 @@
 
         $('body').on('click', '.saveSalida', function() {
             var code = $('#barcode').val()
+            const id= $('#id').val();
             $('#modalSalida').modal('hide')
             window.livewire.emit('doCheckOut', code, 2)
-
+            setTimeout(() => {
+                var ruta = "{{ url('print/order') }}" + '/' + id;
+                var w = window.open(ruta, "_blank", "width=400, height=600");
+            },100);
         })
 
     })

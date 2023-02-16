@@ -76,6 +76,9 @@
                 @foreach ($datos->tarifa as $item)
                 <li>{{$item->tiempo.": $".$item->costo}}</li>
                 @endforeach
+                @if ($datos->multa >0)
+                    <li class="red"><b>Multa:</b> ${{$datos->multa}}</li>
+                @endif
             </ul>
         </div>
         <hr>
