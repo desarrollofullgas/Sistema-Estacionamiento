@@ -19378,6 +19378,14 @@ nav{
 .red{
   color: #FF0000;
 }
+.tabs__roles{
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+.hover--black:hover{
+  background-color: #000;
+}
 @media screen and (max-width:550px) {
   .width--70-100{
     width: 100%;

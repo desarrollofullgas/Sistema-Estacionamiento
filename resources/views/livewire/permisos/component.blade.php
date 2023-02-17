@@ -4,16 +4,16 @@
     </x-slot>
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <div class="card detras__1">
+            <div class="card">
                 <div class="card-header">
-                    <ul class="nav nav-pills" role="tablist">
+                    <ul class="nav-pills tabs__roles" role="tablist">
                         <li class="nav-item ">
-                            <a class="nav-link {{ $tab == 'roles' ? 'active' : '' }}" wire:click="$set('tab', 'roles')"
+                            <a class="nav-link {{ $tab == 'roles' ? 'active' : 'hover--black' }}" wire:click="$set('tab', 'roles')"
                                 id="tabRoles" data-toggle="pill" href="#roles_content" role="tab">
                                 <i class="bi bi-person-badge"></i>ROLES</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link {{ $tab == 'permisos' ? 'active' : '' }}"
+                            <a class="nav-link {{ $tab == 'permisos' ? 'active' : 'hover--black' }}"
                                 wire:click="$set('tab', 'permisos')" id="tabPermisos" data-toggle="pill"
                                 href="#permisos_content" role="tab">
                                 <i class="bi bi-key-fill"></i> PERMISOS</a>
